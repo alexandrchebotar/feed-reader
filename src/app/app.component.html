@@ -1,17 +1,16 @@
-<nz-layout>
-  <nz-header>Header</nz-header>
-  <nz-layout>
-    <nz-sider>
-      <app-channels></app-channels>
-    </nz-sider>
-    <nz-layout>
-        <nz-sider>
-            <app-items></app-items>
-        </nz-sider>
-        <nz-content>
-          <app-summary></app-summary>
-        </nz-content>
-    </nz-layout>
-  </nz-layout>
-  <nz-footer>Footer</nz-footer>
-</nz-layout>
+<div nz-row>
+  <div nz-col nzXs="0" nzSm="0" nzMd="4" nzLg="4" nzXl="3">
+    <app-channels></app-channels>
+  </div>
+  <div nz-col nzXs="0" nzSm="12" nzMd="10" nzLg="12" nzXl="12">
+    <app-items></app-items>
+  </div>
+  <div nz-col nzXs="24" nzSm="12" nzMd="10" nzLg="8" nzXl="9">
+    <app-summary></app-summary>
+  </div>
+</div>
+<div nz-row>
+  <div nz-col nzXs="2" nzSm="4" [nzMd]="{offset: '8', span: '6'}" nzLg="8" nzXl="10">
+    <app-statistics></app-statistics>
+  </div>
+</div>

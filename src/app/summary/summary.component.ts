@@ -12,7 +12,7 @@ export class SummaryComponent implements OnInit {
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.summary = this.dataService.getFeeds()[1].items[0].content;
+    this.summary = this.dataService.getFeeds()[0].items[1].content;
   }
 
 }
