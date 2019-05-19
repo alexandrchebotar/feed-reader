@@ -6,6 +6,7 @@ import { ChannelsComponent } from './channels/channels.component';
 import { ItemsComponent } from './items/items.component';
 import { SummaryComponent } from './summary/summary.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { DataService } from './data.service';
 import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -30,7 +31,7 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

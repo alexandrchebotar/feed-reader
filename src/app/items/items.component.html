@@ -1,3 +1,7 @@
-<p>
-  items works!
-</p>
+<nz-list
+  [nzDataSource]="items"
+  nzSize="small"
+  [nzRenderItem]="item"
+>
+
+<ng-template #item let-item><nz-list-item [nzContent]="item.title"></nz-list-item></ng-template>

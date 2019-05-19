@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-summary',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SummaryComponent implements OnInit {
 
-  constructor() { }
+  summary: string;
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
+    this.summary = this.dataService.getFeeds()[1].items[0].content;
   }
 
 }
