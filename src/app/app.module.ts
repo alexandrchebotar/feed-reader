@@ -2,9 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { ChannelsComponent } from './channels/channels.component';
+import { FeedsComponent } from './feeds/feeds.component';
 import { ItemsComponent } from './items/items.component';
-import { SummaryComponent } from './summary/summary.component';
+import { DescriptionComponent } from './description/description.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { DataService } from './data.service';
 import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
@@ -19,9 +19,9 @@ registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
-    ChannelsComponent,
+    FeedsComponent,
     ItemsComponent,
-    SummaryComponent,
+    DescriptionComponent,
     StatisticsComponent
   ],
   imports: [

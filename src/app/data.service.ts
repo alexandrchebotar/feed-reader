@@ -23,23 +23,43 @@ export interface Item {
   categories: string[];
 };
 export class Feed {
-  constructor(public url: string, public name: string, public items?: Item[], public feedDetails?: FeedDetails) {};
+  public feedDetails?: FeedDetails;
+  public items?: Item[];
+  public activeItemGuid?: string;
+  constructor(public url: string, public name: string) {};
 };
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+
   private feeds: Feed[] = [
     {url: 'https://www.pravda.com.ua/rss/', name: 'Українська правда', items: pravdaFeed.items},
     {url: 'https://pingvinus.ru/rss.xml', name: 'Пингвинус Linux', items: pingvinusFeed.items},
-  ]
-  constructor() { }
+  ];
+  private activeFeedUrl: string;
+  constructor() { };
 
-  getFeed(url: string): Feed {
-    return this.feeds.find(feed => feed.url === url);
-  }
   getFeeds(): Feed[] {
     return this.feeds;
+  };
+  getFeed(url: string): Feed {
+    return this.feeds.find(feed => feed.url === url);
+  };
+  getActiveFeed(): Feed {
+    return this.getFeed(this.activeFeedUrl);
+  };
+  setActiveFeed(url: string): void {
+    this.activeFeedUrl = url;
+  };
+  getActiveItem(): Item {
+    const activeFeed = this.getActiveFeed();
+    return activeFeed.items.find(item => item.guid === activeFeed.activeItemGuid);
   }
+  setActiveItem(guid: string): void {
+    const activeFeed = this.getActiveFeed();
+    activeFeed.activeItemGuid = guid;
+  }
+
 }

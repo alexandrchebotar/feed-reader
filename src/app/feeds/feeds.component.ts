@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { DataService, Feed } from '../data.service';
 
 @Component({
-  selector: 'app-channels',
-  templateUrl: './channels.component.html',
-  styleUrls: ['./channels.component.css']
+  selector: 'app-feeds',
+  templateUrl: './feeds.component.html',
+  styleUrls: ['./feeds.component.css']
 })
-export class ChannelsComponent implements OnInit {
+export class FeedsComponent implements OnInit {
 
   feeds: Feed[];
   constructor(private dataService: DataService) { }

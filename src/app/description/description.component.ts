@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 
 @Component({
-  selector: 'app-summary',
-  templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.css']
+  selector: 'app-description',
+  templateUrl: './description.component.html',
+  styleUrls: ['./description.component.css']
 })
-export class SummaryComponent implements OnInit {
+export class DescriptionComponent implements OnInit {
 
   summary: string;
   constructor(private dataService: DataService) { }
