@@ -35,11 +35,10 @@ export class Feed {
 export class DataService {
 
   private feeds: Feed[] = [
-    {url: 'https://www.pravda.com.ua/rss/', name: 'Українська правда', items: pravdaFeed.items},
+    {url: 'https://www.pravda.com.ua/rss/', name: 'Українська правда', items: pravdaFeed.items, activeItemGuid: 'https://www.pravda.com.ua/news/2019/05/19/7215467/' },
     {url: 'https://pingvinus.ru/rss.xml', name: 'Пингвинус Linux', items: pingvinusFeed.items},
   ];
-  private activeFeedUrl: string;
-  constructor() { };
+  private activeFeedUrl: string = this.feeds[0].url;
 
   getFeeds(): Feed[] {
     return this.feeds;
@@ -47,19 +46,25 @@ export class DataService {
   getFeed(url: string): Feed {
     return this.feeds.find(feed => feed.url === url);
   };
-  getActiveFeed(): Feed {
-    return this.getFeed(this.activeFeedUrl);
+  getActiveFeedUrl(): string {
+    return this.activeFeedUrl;
   };
   setActiveFeed(url: string): void {
     this.activeFeedUrl = url;
   };
-  getActiveItem(): Item {
-    const activeFeed = this.getActiveFeed();
-    return activeFeed.items.find(item => item.guid === activeFeed.activeItemGuid);
+  getItems(feedUrl: string = this.activeFeedUrl): Item[] {
+    if (feedUrl) {
+      return this.getFeed(feedUrl).items;
+    } 
   }
-  setActiveItem(guid: string): void {
-    const activeFeed = this.getActiveFeed();
-    activeFeed.activeItemGuid = guid;
+  getActiveItemGuid(feedUrl: string = this.activeFeedUrl): string {
+    if (feedUrl) {
+      return this.getFeed(feedUrl).activeItemGuid;
+    }
+  }
+  setActiveItem(guid: string, feedUrl: string = this.activeFeedUrl): void {
+    const feed = this.getFeed(feedUrl);
+    feed.activeItemGuid = guid;
   }
 
 }

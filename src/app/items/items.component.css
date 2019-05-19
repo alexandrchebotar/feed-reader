@@ -2,3 +2,12 @@
   height: 50%;
   overflow: auto;
 } */
+
+nz-list-item:hover {
+  cursor: pointer;
+  background: hsl(0, 0%, 85%);
+}
+
+nz-list-item.active {
+  background: hsl(0, 0%, 95%);
+}

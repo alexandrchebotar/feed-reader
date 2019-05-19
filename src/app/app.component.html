@@ -3,7 +3,7 @@
     <app-feeds></app-feeds>
   </div>
   <div nz-col nzXs="0" nzSm="12" nzMd="10" nzLg="12" nzXl="12">
-    <app-items></app-items>
+    <app-items [items]="items" [activeItemGuid]="activeItemGuid" [setActiveItem]="setActiveItem" ></app-items>
   </div>
   <div nz-col nzXs="24" nzSm="12" nzMd="10" nzLg="8" nzXl="9">
     <app-description></app-description>
