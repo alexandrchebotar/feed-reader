@@ -10,3 +10,11 @@
 [nz-col] div {
   background: hsl(0, 0%, 90%);
 }
+.statistics-buggon-group {
+  float: left;
+  padding-left: 5px;
+}
+.app-buggon-group {
+  float: right;
+  padding-right: 5px;
+}
