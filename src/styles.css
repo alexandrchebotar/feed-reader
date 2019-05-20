@@ -13,3 +13,22 @@ body {
   cursor: pointer;
   background: hsl(0, 0%, 86%);
 }
+.ant-card {
+  background: inherit;
+}
+.ant-card-head-title {
+  white-space: normal;
+}
+.ant-card-extra {
+  margin-left: 10px;
+  padding: 16px 0;
+  text-align: right;
+  max-width: 40%;
+}
+.ant-card-head-wrapper {
+  align-items: flex-start;
+}
+.ant-card img {
+  max-width: 100%;
+  padding-right: 8px;
+}
