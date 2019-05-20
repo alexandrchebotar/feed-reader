@@ -6,3 +6,10 @@ body {
 .ant-list-item, .description-container {
   padding: 0 5px;
 }
+.ant-list-item.active {
+  background: hsl(0, 0%, 90%);
+}
+.ant-list-item:hover {
+  cursor: pointer;
+  background: hsl(0, 0%, 86%);
+}

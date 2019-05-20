@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
+import { NavbarComponent } from './navbar/navbar.component';
 
 registerLocaleData(en);
 
@@ -22,7 +23,8 @@ registerLocaleData(en);
     FeedsComponent,
     ItemsComponent,
     DescriptionComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

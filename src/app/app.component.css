@@ -5,26 +5,16 @@
   background: hsl(240, 25%, 87%);
   height: 100%;
 } */
-.navbar {
+/* .navbar {
   font-weight: bold;
 }
 .navbar, .statictics {
   text-align: center;
   height: 40px;
   line-height: 40px;
-}
-.navbar [nz-col] {
-  background: hsl(0, 0%, 92%);
-}
-.navbar [nz-col] div {
-  background: hsl(0, 0%, 90%);
-}
-.statistics [nz-col] {
-  background: hsl(0, 0%, 96%);
-}
-.statistics [nz-col] div {
-  background: hsl(0, 0%, 94%);
-}
+} */
+
+
 /* .main [nz-col] {
   min-height: calc(100vh - 80px);
 }

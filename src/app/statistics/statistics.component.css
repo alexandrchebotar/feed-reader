@@ -1,3 +1,13 @@
 :host {
+  text-align: right;
+  font-style: italic;
+  height: 40px;
   line-height: 40px;
+}
+[nz-col] {
+  background: hsl(0, 0%, 96%);
+}
+[nz-col] div {
+  background: hsl(0, 0%, 94%);
+  padding-right: 10px;
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import pravdaFeed from './data/pravda.json';
 import pingvinusFeed from './data/pingvinus.json';
+import redditFeed from './data/reddit.json';
+import nnmClubFeed from './data/nnm-club.json';
 
 interface FeedDetails {
   url: string;
@@ -35,8 +37,10 @@ export class Feed {
 export class DataService {
 
   private feeds: Feed[] = [
+    {url: 'https://nnmclub.to/forum/rssp.xml', name: 'NNM-Club', items: nnmClubFeed.items},
     {url: 'https://www.pravda.com.ua/rss/', name: 'Українська правда', items: pravdaFeed.items, activeItemGuid: 'https://www.pravda.com.ua/news/2019/05/19/7215467/' },
     {url: 'https://pingvinus.ru/rss.xml', name: 'Пингвинус Linux', items: pingvinusFeed.items},
+    {url: 'https://www.reddit.com/.rss', name: 'reddit: the front page of the internet', items: redditFeed.items},
   ];
   private activeFeedUrl: string = this.feeds[0].url;
 
