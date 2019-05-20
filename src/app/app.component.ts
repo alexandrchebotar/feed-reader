@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService, Item, Feed } from './data.service';
+import { StatisticsService } from './statistics.service';
 
 @Component({
   selector: 'app-root',

@@ -2,3 +2,7 @@
   max-width: calc(100%);
   padding: 0 2px;
 } */
+.chart {
+  height: 200px;
+  width: 100%;
+}

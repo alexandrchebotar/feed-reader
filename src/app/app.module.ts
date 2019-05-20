@@ -9,11 +9,13 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { DataService } from './data.service';
 import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
 import { FormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { NavbarComponent } from './navbar/navbar.component';
+import { ChartComponent } from './chart/chart.component';
 
 registerLocaleData(en);
 
@@ -24,10 +26,12 @@ registerLocaleData(en);
     ItemsComponent,
     DescriptionComponent,
     StatisticsComponent,
-    NavbarComponent
+    NavbarComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,
+    ChartsModule,
     NgZorroAntdModule,
     FormsModule,
     HttpClientModule,

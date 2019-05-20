@@ -1,13 +1,6 @@
-<!-- <div>
-  styling
-  <div>{{item.title}}</div>
-  <div>{{item.link}}</div>
-  <div>{{item.pubDate}}</div>
-  <div>{{item.author}}</div>
-  <div class="description-container" [innerHTML]="item.description"></div>
-</div> -->
-
-
+<div *ngIf="true" [class]="chart">
+  <app-chart></app-chart>
+</div>
 <nz-card [nzBordered]="false" [nzTitle]="titleLink" [nzExtra]="extra">
   <ng-template #titleLink>
     <a [href]="item.link" target="blank">{{item.title}}</a>

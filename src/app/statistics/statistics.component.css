@@ -1,8 +1,9 @@
 :host {
   text-align: right;
   font-style: italic;
-  height: 40px;
-  line-height: 40px;
+  font-size: .85em;
+  height: 20px;
+  line-height: 20px;
 }
 [nz-col] {
   background: hsl(0, 0%, 96%);
