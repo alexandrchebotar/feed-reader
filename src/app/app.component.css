@@ -1,6 +1,38 @@
-:host {
-  text-align: center;
+/* :host {
+  padding: 0 5px;
+} */
+/* [nz-col] div {
+  background: hsl(240, 25%, 87%);
+  height: 100%;
+} */
+.navbar {
+  font-weight: bold;
 }
+.navbar, .statictics {
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+}
+.navbar [nz-col] {
+  background: hsl(0, 0%, 92%);
+}
+.navbar [nz-col] div {
+  background: hsl(0, 0%, 90%);
+}
+.statistics [nz-col] {
+  background: hsl(0, 0%, 96%);
+}
+.statistics [nz-col] div {
+  background: hsl(0, 0%, 94%);
+}
+/* .main [nz-col] {
+  min-height: calc(100vh - 80px);
+}
+.main [nz-col] div {
+  min-height: calc(100vh - 80px);
+} */
+
+/* 
 
 nz-header {
   background: #7dbcea;
@@ -8,10 +40,6 @@ nz-header {
   height: 40px;
   line-height: 40px;
 }
-
-/* nz-sider, nz-content {
-  height: calc(100vh - 80px);
-} */
 
 nz-sider {
   background: #3ba0e9;
@@ -22,16 +50,8 @@ nz-content {
   background: rgba(16, 142, 233, 1);
   color: #fff;
   min-height: 120px;
-  /* position: relative; */
+  position: relative;
 }
-
-/* nz-layout {
-  margin-bottom: 48px;
-}
-
-nz-layout:last-child {
-  margin: 0;
-} */
 
 nz-footer {
   background: #7dbcea;
@@ -40,11 +60,4 @@ nz-footer {
   line-height: 40px;
   padding: 0 50px;
 }
-
-.summary {
-  width: 100%;
-  /* height: 50%; */
-  /* position: absolute;
-  bottom: 0; */
-  background: rgb(33, 133, 204);
-}
+*/

@@ -1,1 +1,7 @@
-<div [innerHTML]="summary"></div>
+<div>
+  <div>{{item.title}}</div>
+  <div>{{item.link}}</div>
+  <div>{{item.pubDate}}</div>
+  <div>{{item.author}}</div>
+  <div class="description-container" [innerHTML]="item.description"></div>
+</div>

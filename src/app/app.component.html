@@ -1,16 +1,55 @@
-<div nz-row>
-  <div nz-col nzXs="0" nzSm="0" nzMd="4" nzLg="4" nzXl="3">
-    <app-feeds [feeds]="feeds" [activeFeedUrl]="activeFeedUrl" [setActiveFeed]="setActiveFeed" ></app-feeds>
+<div nz-row nzGutter="4" class="navbar">
+  <div nz-col nzXs="2" nzSm="4" [nzMd]="{ span: '6'}" [nzLg]="{ span: '10'}" nzXl="4" >
+    <div>
+      Feeds
+    </div>
+    <!-- <app-toolbar></app-toolbar> -->
   </div>
-  <div nz-col nzXs="0" nzSm="12" nzMd="10" nzLg="12" nzXl="12">
-    <app-items [items]="items" [activeItemGuid]="activeItemGuid" [setActiveItem]="setActiveItem" ></app-items>
+  <div nz-col nzXs="2" nzSm="4" [nzMd]="{ span: '6'}" [nzLg]="{ span: '10'}" nzXl="10" >
+    <div>
+      News
+    </div>
+    <!-- <app-toolbar></app-toolbar> -->
   </div>
-  <div nz-col nzXs="24" nzSm="12" nzMd="10" nzLg="8" nzXl="9">
-    <app-description></app-description>
+  <div nz-col nzXs="2" nzSm="4" [nzMd]="{span: '6'}" [nzLg]="{ span: '10'}" nzXl="10"  >
+    <div>
+      Settings
+    </div>
+    <!-- <app-toolbar></app-toolbar> -->
   </div>
 </div>
-<div nz-row>
-  <div nz-col nzXs="2" nzSm="4" [nzMd]="{offset: '8', span: '6'}" nzLg="8" nzXl="10">
-    <app-statistics></app-statistics>
+<div nz-row nzGutter="4" class="statistics">
+  <div nz-col nzXs="2" nzSm="4" [nzMd]="{span: '6'}" [nzLg]="{span: '4'}" nzXl="4" >
+    <div>
+        <app-statistics></app-statistics>
+    </div>
+  </div>
+  <div nz-col nzXs="2" nzSm="4" [nzMd]="{span: '6'}" [nzLg]="{span: '10'}" nzXl="10" >
+    <div>
+      <app-statistics></app-statistics>
+    </div>
+  </div>
+  <div nz-col nzXs="2" nzSm="4" [nzMd]="{span: '6'}" [nzLg]="{span: '10'}" nzXl="10">
+    <div>
+      <app-statistics></app-statistics>
+    </div>
+  </div>
+</div>
+
+<div nz-row nzGutter="4" class="main">
+  <div nz-col nzXs="0" nzSm="0" nzMd="4" nzLg="4" nzXl="4" >
+    <div>
+      <app-feeds [feeds]="feeds" [activeFeedUrl]="activeFeedUrl" [setActiveFeed]="setActiveFeed" ></app-feeds>
+    </div>
+  </div>
+  <div nz-col nzXs="0" nzSm="12" nzMd="10" nzLg="10" nzXl="10" >
+    <div>
+      <app-items [items]="items" [activeItemGuid]="activeItemGuid" [setActiveItem]="setActiveItem" ></app-items>
+    </div>
+  </div>
+  <div nz-col nzXs="24" nzSm="12" nzMd="10" nzLg="10" nzXl="10" >
+    <div>
+      <app-description [item]="activeItem"></app-description>
+    </div>
   </div>
 </div>

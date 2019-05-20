@@ -56,15 +56,25 @@ export class DataService {
     if (feedUrl) {
       return this.getFeed(feedUrl).items;
     } 
-  }
+  };
   getActiveItemGuid(feedUrl: string = this.activeFeedUrl): string {
-    if (feedUrl) {
-      return this.getFeed(feedUrl).activeItemGuid;
+    const feed = this.getFeed(feedUrl);
+    let activeItemGuid = feed.activeItemGuid;
+    if (activeItemGuid) {
+      return activeItemGuid;
     }
-  }
+    activeItemGuid = feed.items[0].guid;
+    feed.activeItemGuid = activeItemGuid;
+    return activeItemGuid;
+  };
   setActiveItem(guid: string, feedUrl: string = this.activeFeedUrl): void {
     const feed = this.getFeed(feedUrl);
     feed.activeItemGuid = guid;
-  }
+  };
+  getActiveItem(): Item {
+    const feed = this.getFeed(this.activeFeedUrl);
+    const activeItemGuid = feed.activeItemGuid;
+    return feed.items.find(item => item.guid === activeItemGuid);
+  };
 
 }

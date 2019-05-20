@@ -11,6 +11,7 @@ export class AppComponent {
   private activeFeedUrl: string;
   private items: Item[];
   private activeItemGuid: string;
+  private activeItem: Item;
   constructor(private dataService: DataService) { };
 
   setActiveFeed(guid: string) {};
@@ -18,15 +19,19 @@ export class AppComponent {
   updateFeedsData() {
     this.feeds = this.dataService.getFeeds();
     this.activeFeedUrl = this.dataService.getActiveFeedUrl();
+    this.updateItemsData();
   };
   updateItemsData() {
     this.items = this.dataService.getItems(this.activeFeedUrl);
     this.activeItemGuid = this.dataService.getActiveItemGuid(this.activeFeedUrl);
+    this.updateDescriptionData();
   };
+  updateDescriptionData() {
+    this.activeItem = this.dataService.getActiveItem();
+  }
 
   ngOnInit() {
     this.updateFeedsData();
-    this.updateItemsData();
     this.setActiveFeed = (url: string) => {
       if (url !== this.activeFeedUrl) {
         this.dataService.setActiveFeed(url);
@@ -38,6 +43,7 @@ export class AppComponent {
       if (guid !== this.activeItemGuid) {
         this.dataService.setActiveItem(guid);
         this.activeItemGuid = guid;
+        this.updateDescriptionData();
       }
     }
   }
