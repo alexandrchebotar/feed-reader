@@ -28,13 +28,17 @@ export class AppComponent {
     this.updateFeedsData();
     this.updateItemsData();
     this.setActiveFeed = (url: string) => {
-      this.dataService.setActiveFeed(url);
+      if (url !== this.activeFeedUrl) {
+        this.dataService.setActiveFeed(url);
       this.activeFeedUrl = url;
       this.updateItemsData();
+      }
     }
     this.setActiveItem = (guid: string) => {
-      this.dataService.setActiveItem(guid);
-      this.activeItemGuid = guid;
+      if (guid !== this.activeItemGuid) {
+        this.dataService.setActiveItem(guid);
+        this.activeItemGuid = guid;
+      }
     }
   }
 
