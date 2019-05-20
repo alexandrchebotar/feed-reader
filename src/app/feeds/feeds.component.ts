@@ -1,18 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { DataService, Feed } from '../data.service';
+import { Component, Input } from '@angular/core';
+import { Feed } from '../data.service';
 
 @Component({
   selector: 'app-feeds',
   templateUrl: './feeds.component.html',
   styleUrls: ['./feeds.component.css']
 })
-export class FeedsComponent implements OnInit {
-
-  feeds: Feed[];
-  constructor(private dataService: DataService) { }
-
-  ngOnInit() {
-    this.feeds = this.dataService.getFeeds();
-  }
-
+export class FeedsComponent {
+  @Input() feeds: Feed[];
+  @Input() activeFeedUrl: string;
+  @Input() setActiveFeed: (guid: string) => void;
 }

@@ -1,6 +1,6 @@
 <div nz-row>
   <div nz-col nzXs="0" nzSm="0" nzMd="4" nzLg="4" nzXl="3">
-    <app-feeds></app-feeds>
+    <app-feeds [feeds]="feeds" [activeFeedUrl]="activeFeedUrl" [setActiveFeed]="setActiveFeed" ></app-feeds>
   </div>
   <div nz-col nzXs="0" nzSm="12" nzMd="10" nzLg="12" nzXl="12">
     <app-items [items]="items" [activeItemGuid]="activeItemGuid" [setActiveItem]="setActiveItem" ></app-items>

@@ -13,13 +13,25 @@ export class AppComponent {
   private activeItemGuid: string;
   constructor(private dataService: DataService) { };
 
+  setActiveFeed(guid: string) {};
   setActiveItem(guid: string) {};
-
-  ngOnInit() {
+  updateFeedsData() {
     this.feeds = this.dataService.getFeeds();
     this.activeFeedUrl = this.dataService.getActiveFeedUrl();
-    this.items = this.dataService.getItems();
-    this.activeItemGuid = this.dataService.getActiveItemGuid();
+  };
+  updateItemsData() {
+    this.items = this.dataService.getItems(this.activeFeedUrl);
+    this.activeItemGuid = this.dataService.getActiveItemGuid(this.activeFeedUrl);
+  };
+
+  ngOnInit() {
+    this.updateFeedsData();
+    this.updateItemsData();
+    this.setActiveFeed = (url: string) => {
+      this.dataService.setActiveFeed(url);
+      this.activeFeedUrl = url;
+      this.updateItemsData();
+    }
     this.setActiveItem = (guid: string) => {
       this.dataService.setActiveItem(guid);
       this.activeItemGuid = guid;

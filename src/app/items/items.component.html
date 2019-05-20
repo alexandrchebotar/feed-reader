@@ -3,14 +3,12 @@
   nzSize="small"
   [nzRenderItem]="item"
 >
-
-  <!-- <ng-template #item let-item><nz-list-item [nzContent]="item.title"></nz-list-item></ng-template> -->
   <ng-template #item let-item >
-    <nz-list-item [nzContent]="title" [class.active]="item.guid === activeItemGuid" (click)="setActiveItem(item.guid)" >
-      <ng-template #title >
-        <div [attr.data-guid]="item.guid" [class.active]="item.guid === activeItemGuid">{{item.title}}</div>
-      </ng-template>
+    <nz-list-item 
+      [nzContent]="item.title"
+      [class.active]="item.guid === activeItemGuid"
+      (click)="setActiveItem(item.guid)" 
+    >
     </nz-list-item>
   </ng-template>
-
 </nz-list>
