@@ -4,6 +4,7 @@ import pravdaFeed from './data/pravda.json';
 import pingvinusFeed from './data/pingvinus.json';
 import redditFeed from './data/reddit.json';
 import nnmClubFeed from './data/nnm-club.json';
+import {StorageService } from './storage.service';
 
 interface FeedDetails {
   url: string;
@@ -25,13 +26,6 @@ export class Item {
   enclosure: {};
   categories: string[];
   isRead: boolean = false;
-  constructor(jsonItem: any) {
-    jsonItem.read = this.read;
-    return jsonItem;
-  }
-  read(): void {
-    this.isRead = true;
-  };
 };
 export class Feed {
   public feedDetails?: FeedDetails;
@@ -45,16 +39,16 @@ export class Feed {
 })
 export class DataService {
 
-  private _feeds = new BehaviorSubject<Feed[]>(
+  private _feeds = new BehaviorSubject<Feed[]>( this._loadFromStorage().feeds ||
     [
-      {url: 'https://nnmclub.to/forum/rssp.xml', name: 'NNM-Club', items: nnmClubFeed.items.map(item => new Item(item))},
-      {url: 'https://www.pravda.com.ua/rss/', name: 'Українська правда', items: pravdaFeed.items.map(item => new Item(item)), activeItemGuid: 'https://www.pravda.com.ua/news/2019/05/19/7215467/' },
-      {url: 'https://pingvinus.ru/rss.xml', name: 'Пингвинус Linux', items: pingvinusFeed.items.map(item => new Item(item))},
-      {url: 'https://www.reddit.com/.rss', name: 'reddit: the front page of the internet', items:redditFeed.items.map(item => new Item(item))},
+      {url: 'https://nnmclub.to/forum/rssp.xml', name: 'NNM-Club', items: <Item[]>nnmClubFeed.items},
+      {url: 'https://www.pravda.com.ua/rss/', name: 'Українська правда', items: <Item[]>pravdaFeed.items, activeItemGuid: 'https://www.pravda.com.ua/news/2019/05/19/7215467/' },
+      {url: 'https://pingvinus.ru/rss.xml', name: 'Пингвинус Linux', items: <Item[]>pingvinusFeed.items},
+      {url: 'https://www.reddit.com/.rss', name: 'reddit: the front page of the internet', items: <Item[]>redditFeed.items},
     ]
   );
   feeds = this._feeds.asObservable();
-  private _activeFeedUrl = new BehaviorSubject<string>(this._feeds.getValue()[0].url);
+  private _activeFeedUrl = new BehaviorSubject<string>(this._loadFromStorage().activeFeedUrl || this._feeds.getValue()[0].url);
   activeFeedUrl = this._activeFeedUrl.asObservable();
   private _activeFeed = new BehaviorSubject<Feed>(this._getActiveFeed());
   activeFeed = this._activeFeed.asObservable();
@@ -67,7 +61,7 @@ export class DataService {
   private _textDescription = new BehaviorSubject<string>(this._getTextDescription());
   textDescription = this._textDescription.asObservable();
 
-  constructor() {};
+  constructor(private _storage: StorageService) {};
 
   activateFeed(url: string): void {
     this._activeFeedUrl.next(url);
@@ -76,19 +70,26 @@ export class DataService {
     this._activeItemGuid.next(this._getActiveItemGuid() || this._getItems()[0].guid);
     this._activeItem.next(this._getactiveItem());
     this._textDescription.next(this._getTextDescription());
+    this._saveToStorage();
   };
   activateItem(guid: string): void {
     const feed = this._getActiveFeed();
     feed.activeItemGuid = guid;
     this._activeFeed.next(feed);
     this._activeItemGuid.next(guid);
-    this._getItem(guid).read();
+    this.read(guid);
     this._activeItem.next(this._getactiveItem());
     this._textDescription.next(this._getTextDescription());
+    this._saveToStorage();
+  };
+  read(guid): void {
+    this._getItem(guid).isRead=true;
+    this._saveToStorage();
   };
   readAll(): void {
-    this._getItems().map(item => item.read());
-  }
+    this._getItems().map(item => item.isRead=true);
+    this._saveToStorage();
+  };
 
   _getActiveFeed() {
     return this._feeds.getValue().find(feed => feed.url === this._activeFeedUrl.getValue());
@@ -111,14 +112,10 @@ export class DataService {
     el.innerHTML = description;
     return el.innerText;
   };
-  // _getTextDescription(): string {
-  //   let activeItem: Item;
-  //   if (activeItem = this._activeItem.getValue()) {
-  //     const description = activeItem.description;
-  //     const el = document.createElement('div');
-  //     el.innerHTML = description;
-  //     return el.innerText;
-  //   }
-  // };
-
+  _saveToStorage() {
+    this._storage.set('data', {feeds: this._feeds.getValue(), activeFeedUrl: this._activeFeedUrl.getValue()});
+  };
+  _loadFromStorage(): {feeds: Feed[], activeFeedUrl: string} {
+    return this._storage.get('data');
+  }
 }
