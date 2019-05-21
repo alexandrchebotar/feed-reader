@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import { Item, Feed } from './data.service';
+import { DataService, Item, Feed } from './data.service';
 
 export class LetterStats {
   constructor(public letter: string, public entries: number) {};
@@ -22,7 +22,9 @@ export class StatisticsService {
   usedLetters = this._usedLetters.asObservable();
   private _letters = new BehaviorSubject<LetterStats[]>([]);
   letters = this._letters.asObservable();
-  constructor() { };
+  constructor(private _data: DataService) {
+    this._data.textDescription.subscribe(res => this.generateDescriptionStatistics(res));
+  };
 
   generateFeedsStatistics(feeds: Feed[]): void {
     this._totalFeeds.next(feeds.length);
@@ -31,9 +33,9 @@ export class StatisticsService {
     this._totalNews.next(items.length);
     this._totalAuthors.next([...new Set(items.map(item => item.author))].length);
   }
-  generateDescriptionStatistics(description: string): void {
+  generateDescriptionStatistics(textDescription: string): void {
     const regExp = /[a-zа-я]/;
-    const allLetters: string[] = [...description.toLowerCase()].filter(sym => regExp.test(sym))
+    const allLetters: string[] = [...textDescription.toLowerCase()].filter(sym => regExp.test(sym))
     const unicLetters: string[] = [...new Set(allLetters)];
     this._totalLetters.next(allLetters.length);
     this._usedLetters.next(unicLetters.length);

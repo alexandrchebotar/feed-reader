@@ -7,7 +7,7 @@
     <nz-list-item 
       [nzContent]="item.title"
       [class.active]="item.guid === activeItemGuid"
-      (click)="setActiveItem(item.guid)" 
+      (click)="activateItem(item.guid)" 
     >
     </nz-list-item>
   </ng-template>

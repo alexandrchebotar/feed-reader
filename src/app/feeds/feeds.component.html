@@ -7,7 +7,7 @@
     <nz-list-item 
       [nzContent]="feed.name"
       [class.active]="feed.url === activeFeedUrl"
-      (click)="setActiveFeed(feed.url)" 
+      (click)="activateFeed(feed.url)" 
     >
     </nz-list-item>
   </ng-template>

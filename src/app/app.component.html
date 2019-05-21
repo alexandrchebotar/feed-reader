@@ -3,17 +3,17 @@
 <div nz-row nzGutter="4" class="main">
   <div nz-col nzXs="0" nzSm="0" nzMd="4" nzLg="4" nzXl="4" >
     <div>
-      <app-feeds [feeds]="feeds" [activeFeedUrl]="activeFeedUrl" [setActiveFeed]="setActiveFeed" ></app-feeds>
+      <app-feeds></app-feeds>
     </div>
   </div>
   <div nz-col nzXs="0" nzSm="12" nzMd="10" nzLg="10" nzXl="10" >
     <div>
-      <app-items [items]="items" [activeItemGuid]="activeItemGuid" [setActiveItem]="setActiveItem" ></app-items>
+      <app-items></app-items>
     </div>
   </div>
   <div nz-col nzXs="24" nzSm="12" nzMd="10" nzLg="10" nzXl="10" >
     <div>
-      <app-description [item]="activeItem"></app-description>
+      <app-description></app-description>
     </div>
   </div>
 </div>
