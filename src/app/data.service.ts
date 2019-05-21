@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import pravdaFeed from './data/pravda.json';
 import pingvinusFeed from './data/pingvinus.json';
 import redditFeed from './data/reddit.json';
 import nnmClubFeed from './data/nnm-club.json';
-import {StorageService } from './storage.service';
+import { StorageService } from './storage.service';
+import { HttpService } from './http.service';
 
 interface FeedDetails {
   url: string;
@@ -20,31 +21,29 @@ export class Item {
   link: string;
   guid: string;
   author: string;
-  thumbnail: string;
   description: string;
-  content: string;
-  enclosure: {};
-  categories: string[];
-  isRead: boolean = false;
+  isRead: boolean;
+  constructor(item: any) {
+    item.isRead = false;
+    return item;
+  }
 };
 export class Feed {
-  public feedDetails?: FeedDetails;
-  public items?: Item[];
-  public activeItemGuid?: string;
-  constructor(public url: string, public name: string) {};
+  constructor(public url: string, public name: string, public items?: Item[], public activeItemGuid?: string) {};
 };
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-
+  private _errors = new BehaviorSubject<string[]>([]);
+  errors = this._errors.asObservable();
   private _feeds = new BehaviorSubject<Feed[]>( this._loadFromStorage().feeds ||
     [
-      {url: 'https://nnmclub.to/forum/rssp.xml', name: 'NNM-Club', items: <Item[]>nnmClubFeed.items},
-      {url: 'https://www.pravda.com.ua/rss/', name: 'Українська правда', items: <Item[]>pravdaFeed.items, activeItemGuid: 'https://www.pravda.com.ua/news/2019/05/19/7215467/' },
-      {url: 'https://pingvinus.ru/rss.xml', name: 'Пингвинус Linux', items: <Item[]>pingvinusFeed.items},
-      {url: 'https://www.reddit.com/.rss', name: 'reddit: the front page of the internet', items: <Item[]>redditFeed.items},
+      {url: 'https://nnmclub.to/forum/rssp.xml', name: 'NNM-Club', items: nnmClubFeed.items.map(item => new Item(item)) },
+      {url: 'https://www.pravda.com.ua/rss/', name: 'Українська правда', items: pravdaFeed.items.map(item => new Item(item)), activeItemGuid: 'https://www.pravda.com.ua/news/2019/05/19/7215467/' },
+      {url: 'https://pingvinus.ru/rss.xml', name: 'Пингвинус Linux', items: pingvinusFeed.items.map(item => new Item(item))},
+      {url: 'https://www.reddit.com/.rss', name: 'reddit: the front page of the internet', items: redditFeed.items.map(item => new Item(item))},
     ]
   );
   feeds = this._feeds.asObservable();
@@ -61,7 +60,7 @@ export class DataService {
   private _textDescription = new BehaviorSubject<string>(this._getTextDescription());
   textDescription = this._textDescription.asObservable();
 
-  constructor(private _storage: StorageService) {};
+  constructor(private _storage: StorageService, private _http: HttpService) {};
 
   activateFeed(url: string): void {
     this._activeFeedUrl.next(url);
@@ -90,6 +89,21 @@ export class DataService {
     this._getItems().map(item => item.isRead=true);
     this._saveToStorage();
   };
+  updateActiveFeed(): void {
+    this._http.fetchFeed(this._activeFeedUrl.getValue()).subscribe(
+      res => {
+        const feeds = this._feeds.getValue();
+        const feed = feeds.find(feed => feed.url === res.url);
+        let {url, name, items} = feed;
+        const newItems = res.items.filter(newItem => !items.some(item => item.guid === newItem.guid));
+        feed.items = [...newItems, ...items];
+        // .sort((a, b) => Date.parse(b.pubDate) - Date.parse(a.pubDate));
+        feed.name = name || res.name;
+        this.activateFeed(url);
+      },
+      err => this._errors.next([err])
+    );
+  } 
 
   _getActiveFeed() {
     return this._feeds.getValue().find(feed => feed.url === this._activeFeedUrl.getValue());

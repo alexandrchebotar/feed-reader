@@ -26,7 +26,13 @@
         <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Hide news" nzPlacement="bottomLeft">
           <i nz-icon nzType="menu-fold" nzTheme="outline"></i>
         </button>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Update this feed news" nzPlacement="bottomCenter">
+        <button nz-button
+          [nzGhost]="true"
+          nz-tooltip
+          nzTitle="Update this feed news"
+          nzPlacement="bottomCenter"
+          (click)="updateActiveFeed()"
+        >
           News
           <i nz-icon nzType="sync" nzTheme="outline"></i>
         </button>

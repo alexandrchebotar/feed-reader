@@ -23,6 +23,8 @@ export class StatisticsService {
   private _letters = new BehaviorSubject<LetterStats[]>([]);
   letters = this._letters.asObservable();
   constructor(private _data: DataService) {
+    this._data.feeds.subscribe(res => this.generateFeedsStatistics(res));
+    this._data.items.subscribe(res => this.generateItemsStatistics(res));
     this._data.textDescription.subscribe(res => this.generateDescriptionStatistics(res));
   };
 
