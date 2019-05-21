@@ -7,6 +7,7 @@ import { ItemsComponent } from './items/items.component';
 import { DescriptionComponent } from './description/description.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { DataService } from './data.service';
+import { StatisticsService } from './statistics.service';
 import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
 import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
@@ -16,6 +17,7 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ChartComponent } from './chart/chart.component';
+import { SanitizeHtmlPipe } from './sanitize-html.pipe';
 
 registerLocaleData(en);
 
@@ -27,7 +29,8 @@ registerLocaleData(en);
     DescriptionComponent,
     StatisticsComponent,
     NavbarComponent,
-    ChartComponent
+    ChartComponent,
+    SanitizeHtmlPipe
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,7 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, DataService],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, DataService, StatisticsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

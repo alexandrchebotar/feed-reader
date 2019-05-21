@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../data.service';
+import { StatisticsService, LetterStats } from '../statistics.service';
 
 @Component({
   selector: 'app-chart',
@@ -6,12 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chart.component.css']
 })
 export class ChartComponent implements OnInit {
-  public pieChartLabels = ['Sales Q1', 'Sales Q2', 'Sales Q3', 'Sales Q4'];
-  public pieChartData = [120, 150, 180, 90];
-  public pieChartType = 'pie';
-  constructor() { }
+  private letters: LetterStats[];
+  pieChartLabels: string[];
+  pieChartData: number[];
+  pieChartType = 'pie';
+  constructor(private _statistics: StatisticsService) { };
 
   ngOnInit() {
+    this._statistics.letters.subscribe(res => {
+      this.letters = res.sort((a, b) => a.letter > b.letter ? 1 : -1);
+      // debugger;
+      this.pieChartLabels = this.letters.map(letterStats => letterStats.letter);
+      this.pieChartData = this.letters.map(letterStats => letterStats.entries);
+    });
+    
   }
 
 }
