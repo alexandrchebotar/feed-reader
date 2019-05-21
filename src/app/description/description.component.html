@@ -9,5 +9,5 @@
     <div>{{item.pubDate}}</div>
     <div>{{item.author ? 'by ' + item.author : ''}}</div>
   </ng-template>
-  <div class="description-container" [innerHTML]="item.description"></div>
+  <div #description class="description-container" [innerHTML]="item.description | sanitizeHtml"></div>
 </nz-card>
