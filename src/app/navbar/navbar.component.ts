@@ -25,6 +25,7 @@ export class NavbarComponent implements OnInit {
     this._data.statisticsVisible.subscribe(res => this.statisticsVisible = res);
 
     this.updateActiveFeed = () => this._data.updateActiveFeed();
+    this.updateAllFeeds = () => this._data.updateAllFeeds();
     this.addNewFeed = () => {
       this.closeDrawer();
       this._data.addNewFeed(this.newFeedUrl);
@@ -47,6 +48,7 @@ export class NavbarComponent implements OnInit {
     })
   }
   updateActiveFeed(): void {};
+  updateAllFeeds(): void {};
   addNewFeed(): void {};
   openDrawer(): void {
     this.visible = true;

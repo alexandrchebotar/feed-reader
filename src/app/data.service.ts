@@ -123,36 +123,13 @@ export class DataService {
     this._saveToStorage();
   }
   updateActiveFeed(): void {
-    this._fetchingData.next(true);
-    this._http.fetchFeed(this._activeFeedUrl.getValue()).subscribe(
-      res => {
-        const {feed: resFeed , items: resItems} = res;
-        const {url: resUrl, title: resName} = resFeed;
-        const feeds = this._getFeeds();
-        const feed = feeds.find(feed => feed.url === resUrl);
-        let {url, name, items} = feed;
-        let newItems: Item[] = resItems.map((item: any) => new Item(item));
-        if (items) {
-          newItems = newItems.filter(newItem => !items.some(item => item.guid === newItem.guid));
-          feed.items = [...newItems, ...items];
-        } else {
-          feed.items = newItems;
-        }
-        feed.name = name || resName;
-        this._feeds.next(feeds);
-        this.activateFeed(url);
-        this._saveToStorage();
-        this._fetchingData.next(false);
-      },
-      err => {
-        console.error('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-        console.error(err);
-        console.error('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-        this._fetchingData.next(false);
-        this._message.create('error', err);
-      }
-    );
+    const activeFeedUrl = this._getActiveFeedUrl();
+    this._updateFeed(activeFeedUrl);
   };
+  updateAllFeeds(): void {
+    this._fetchingData.next(true);
+    this._getFeeds().forEach(feed => this._updateFeed(feed.url));
+  }
   addNewFeed(newFeedURL: string): void {
     try {
       new URL(newFeedURL);
@@ -169,9 +146,6 @@ export class DataService {
     }
   };
 
-  // _messegeError(type: 'error'): void {
-  //   this.message.create(type, `This is a message of ${type}`);
-  // }
   _getFeeds() {
     const feeds = this._feeds.getValue() || [];
     return feeds;
@@ -234,4 +208,33 @@ export class DataService {
     const activeFeedUrl = loaded && loaded.activeFeedUrl;
     return activeFeedUrl;
   }
+  _updateFeed(url: string): void {
+    this._fetchingData.next(true);
+    this._http.fetchFeed(url).subscribe(
+      res => {
+        const {feed: resFeed , items: resItems} = res;
+        const {url: resUrl, title: resName} = resFeed;
+        const feeds = this._getFeeds();
+        const feed = feeds.find(feed => feed.url === resUrl);
+        let {url, name, items} = feed;
+        let newItems: Item[] = resItems.map((item: any) => new Item(item));
+        if (items) {
+          newItems = newItems.filter(newItem => !items.some(item => item.guid === newItem.guid));
+          feed.items = [...newItems, ...items];
+        } else {
+          feed.items = newItems;
+        }
+        feed.name = name || resName;
+        this._feeds.next(feeds);
+        this.activateFeed(url);
+        this._fetchingData.next(false);
+        this._message.create('success', `Update complete. Loaded ${newItems.length} news to ${feed.name} feed.`);
+        this._saveToStorage();
+      },
+      err => {
+        this._fetchingData.next(false);
+        this._message.create('error', err);
+      }
+    );
+  };
 }
