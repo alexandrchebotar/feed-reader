@@ -145,6 +145,17 @@ export class DataService {
         this._message.create('error', 'invalid URL');
     }
   };
+  deleteFeed(url: string): void {
+    let feeds = this._getFeeds();
+    feeds = feeds.filter(feed => !(feed.url === url));
+    this._feeds.next(feeds);
+  };
+  renameFeed(url: string, name: string): void {
+    const feeds = this._getFeeds();
+    const feed = feeds.find(feed => feed.url === url);
+    feed.name = name;
+    this._feeds.next(feeds);
+  };
 
   _getFeeds() {
     const feeds = this._feeds.getValue() || [];

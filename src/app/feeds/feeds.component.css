@@ -1,8 +1,10 @@
-/* nz-list-item:hover {
-  cursor: pointer;
-  background: hsl(0, 0%, 85%);
+i {
+  padding-right: 5px;
 }
-
-nz-list-item.active {
-  background: hsl(0, 0%, 95%);
-} */
+i:hover {
+  color: #40a9ff;
+}
+nz-drawer {
+  position: relative;
+  left: -5px;
+}

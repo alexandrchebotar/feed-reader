@@ -8,7 +8,7 @@ import { DataService } from '../data.service';
 })
 export class NavbarComponent implements OnInit {
   isFetching: string | boolean;
-  visible = false;
+  visibleDrawer = false;
   newFeedUrl: string;
   showUnread: boolean;
   feedsVisible: boolean;
@@ -51,10 +51,10 @@ export class NavbarComponent implements OnInit {
   updateAllFeeds(): void {};
   addNewFeed(): void {};
   openDrawer(): void {
-    this.visible = true;
+    this.visibleDrawer = true;
   }
   closeDrawer(): void {
-    this.visible = false;
+    this.visibleDrawer = false;
   }
   toggleFeeds(): void {};
   toggleNews(): void {};

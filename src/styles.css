@@ -54,3 +54,7 @@ body {
 .ant-input-group-addon {
   padding: 0;
 }
+.ant-drawer {
+  top: 0;
+  left: 0;
+}
