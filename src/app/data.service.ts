@@ -76,8 +76,6 @@ export class DataService {
   constructor(private _storage: StorageService, private _http: HttpService,private _message: NzMessageService) {};
 
   activateFeed(url: string): void {
-    // const feeds = this._feeds.getValue();
-    // this._feeds.next(feeds);
     this._activeFeedUrl.next(url);
     this._activeFeed.next(this._getActiveFeed());
     this._items.next(this._getItems());
@@ -160,15 +158,15 @@ export class DataService {
     this._feeds.next(feeds);
     this._saveToStorage();
   };
-  manageFeeds() {
+  manageFeeds(): void {
     this._managingFeeds.next(!this._managingFeeds.getValue());
   }
 
-  _getFeeds() {
+  _getFeeds(): Feed[] {
     const feeds = this._feeds.getValue() || [];
     return feeds;
   };
-  _getActiveFeedUrl() {
+  _getActiveFeedUrl(): string {
     let activeFeedUrl = this._activeFeedUrl && this._activeFeedUrl.getValue();
     if (!activeFeedUrl) {
       const feeds = this._getFeeds();
@@ -176,28 +174,28 @@ export class DataService {
     }
     return activeFeedUrl;
   }
-  _getActiveFeed() {
+  _getActiveFeed(): Feed {
     const feeds = this._getFeeds();
     const activeFeedUrl = this._activeFeedUrl.getValue();
     const activeFeed = activeFeedUrl && feeds.find(feed => feed.url === activeFeedUrl) || feeds[0];
     return activeFeed;
   };
-  _getItems() {
+  _getItems(): Item[] {
     const activeFeed = this._getActiveFeed();
     const items = activeFeed && activeFeed.items;
     return items;
   };
-  _getActiveItemGuid() {
+  _getActiveItemGuid(): string {
     const activeFeed = this._getActiveFeed();
-    const activeItemGuid = activeFeed && activeFeed.items && (activeFeed.activeItemGuid || (activeFeed.items[0] && activeFeed.items[0].guid));
+    const activeItemGuid = activeFeed && (activeFeed.activeItemGuid || (activeFeed.items[0] && activeFeed.items[0].guid));
     return activeItemGuid;
   };
-  _getItem(guid) {
+  _getItem(guid: string): Item {
     const items = this._getItems();
     const item = items && items.find(item => item.guid === guid);
     return item;
   };
-  _getactiveItem() {
+  _getactiveItem(): Item {
     const items = this._getItems();
     const activeItem = items && items.find(item => item.guid === this._activeItemGuid.getValue());
     return activeItem;
@@ -210,7 +208,7 @@ export class DataService {
     const textDescription = description && el.innerText;
     return textDescription;
   };
-  _saveToStorage() {
+  _saveToStorage(): void {
     this._storage.set('data', {feeds: this._getFeeds(), activeFeedUrl: this._activeFeedUrl.getValue()});
   };
   _loadFromStorage(): any {
