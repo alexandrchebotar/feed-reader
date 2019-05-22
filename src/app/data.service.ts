@@ -60,6 +60,8 @@ export class DataService {
   activeItem = this._activeItem.asObservable();
   private _textDescription = new BehaviorSubject<string>(this._getTextDescription());
   textDescription = this._textDescription.asObservable();
+  private _showUnread =new BehaviorSubject<boolean>(false);
+  showUnread = this._showUnread.asObservable();
 
   constructor(private _storage: StorageService, private _http: HttpService,private _message: NzMessageService) {};
 
@@ -92,6 +94,10 @@ export class DataService {
     this._getItems().map(item => item.isRead=true);
     this._saveToStorage();
   };
+  toggleUnread(): void {
+    this._showUnread.next(!this._showUnread.getValue());
+    this._saveToStorage();
+  }
   updateActiveFeed(): void {
     this._fetchingData.next(true);
     this._http.fetchFeed(this._activeFeedUrl.getValue()).subscribe(

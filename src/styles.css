@@ -9,9 +9,12 @@ body {
 .ant-list-item.active {
   background: hsl(0, 0%, 90%);
 }
-.ant-list-item:hover {
+.ant-list-item:hover, .ant-list-item.unread:hover {
   cursor: pointer;
-  background: hsl(0, 0%, 86%);
+  background: hsl(0, 0%, 85%);
+}
+.ant-list-item.unread {
+  background-color: hsl(0, 0%, 95%);
 }
 .ant-card {
   background: inherit;

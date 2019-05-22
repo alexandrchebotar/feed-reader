@@ -15,7 +15,7 @@
           >
             <form nz-form [nzLayout]="'inline'" (ngSubmit)="addNewFeed()">
                 <nz-form-item>
-                    <input type="text" nz-input [(ngModel)]="newFeed" placeholder="Input RSS/Atom-feed link" [nzSize]="small" [ngModelOptions]="{standalone: true}"/>
+                    <input type="text" nz-input [(ngModel)]="newFeedUrl" placeholder="Input RSS/Atom-feed link" [nzSize]="small" [ngModelOptions]="{standalone: true}"/>
                 </nz-form-item>
                 <nz-form-item>
                     <button nz-button [class.input-btn]="true">Add</button>
@@ -53,11 +53,11 @@
           News
           <i nz-icon nzType="sync" nzTheme="outline" [nzSpin]="isFetching"></i>
         </button>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Mark all as read" nzPlacement="bottomRight">
+        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Mark all as read" (click)="readAll()" nzPlacement="bottomRight">
           <i nz-icon nzType="check-square" nzTheme="outline"></i>
         </button>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Show only unread" nzPlacement="bottomRight">
-          <i nz-icon nzType="eye-invisible" nzTheme="outline"></i>
+        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Show only unread" (click)="toggleUnread()" nzPlacement="bottomRight">
+          <i nz-icon nzType="eye-invisible" [nzTheme]="showUnread ? 'twotone' : 'outline'" [nzTwotoneColor]="'#52c41a'"></i>
         </button>
       </nz-button-group>
     </div> 
