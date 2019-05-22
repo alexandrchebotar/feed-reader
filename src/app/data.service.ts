@@ -149,6 +149,12 @@ export class DataService {
     let feeds = this._getFeeds();
     feeds = feeds.filter(feed => !(feed.url === url));
     this._feeds.next(feeds);
+    const activeFeedUrl = this._getActiveFeedUrl();
+    if (url === activeFeedUrl) {
+      const feeds = this._getFeeds();
+      const firstFeedUrl = feeds[0] && feeds[0].url;
+      this.activateFeed(firstFeedUrl);
+    }
     this._saveToStorage();
   };
   renameFeed(url: string, name: string): void {
