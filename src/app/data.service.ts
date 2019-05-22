@@ -6,6 +6,7 @@ import redditFeed from './data/reddit.json';
 import nnmClubFeed from './data/nnm-club.json';
 import { StorageService } from './storage.service';
 import { HttpService } from './http.service';
+import { NzMessageService } from 'ng-zorro-antd';
 
 interface FeedDetails {
   url: string;
@@ -60,9 +61,11 @@ export class DataService {
   private _textDescription = new BehaviorSubject<string>(this._getTextDescription());
   textDescription = this._textDescription.asObservable();
 
-  constructor(private _storage: StorageService, private _http: HttpService) {};
+  constructor(private _storage: StorageService, private _http: HttpService,private _message: NzMessageService) {};
 
   activateFeed(url: string): void {
+    // const feeds = this._feeds.getValue();
+    // this._feeds.next(feeds);
     this._activeFeedUrl.next(url);
     this._activeFeed.next(this._getActiveFeed());
     this._items.next(this._getItems());
@@ -115,22 +118,30 @@ export class DataService {
         console.error('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
         console.error(err);
         console.error('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        this._fetchingData.next(false);
+        this._message.create('error', err);
       }
     );
   };
-  // updateAllFeeds(): void {
-  //   this._getFeeds().
-  // }
   addNewFeed(newFeedURL: string): void {
-    const feeds = this._getFeeds();
-    if (!feeds.find(feed => feed.url === newFeedURL)) {
-      feeds.push(new Feed(newFeedURL));
-      this.activateFeed(newFeedURL);
-      this.updateActiveFeed();
-      this._saveToStorage();
+    try {
+      new URL(newFeedURL);
+      const feeds = this._getFeeds();
+      if (!feeds.find(feed => feed.url === newFeedURL)) {
+        feeds.push(new Feed(newFeedURL));
+        // this._feeds.next(feeds);
+        this.activateFeed(newFeedURL);
+        this.updateActiveFeed();
+        this._saveToStorage();
+      }
+    } catch (error) {
+        this._message.create('error', 'invalid URL');
     }
   };
 
+  // _messegeError(type: 'error'): void {
+  //   this.message.create(type, `This is a message of ${type}`);
+  // }
   _getFeeds() {
     const feeds = this._feeds.getValue() || [];
     return feeds;

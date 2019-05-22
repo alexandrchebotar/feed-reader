@@ -6,22 +6,22 @@
           <i nz-icon nzType="menu-fold" nzTheme="outline"></i>
         </button>
         <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Add feed" nzPlacement="bottomCenter" (click)="openDrawer()">
-        <nz-drawer
-          [nzClosable]="false"
-          [nzHeight]="80"
-          [nzVisible]="visible"
-          nzPlacement="top"
-          (nzOnClose)="closeDrawer()"
-        >
-          <nz-input-group [nzAddOnAfter]="suffixIconButton" nzCompact="true">
-            <input type="text" nz-input [(ngModel)]="newFeed" placeholder="Input RSS/Atom-feed link" [nzSize]="small" />
-          </nz-input-group>
-          <ng-template #suffixIconButton>
-            <button nz-button [class.input-btn]="true" (click)="addNewFeed()">Add</button>
-          </ng-template>
-        </nz-drawer>
-
-
+          <nz-drawer
+            [nzClosable]="false"
+            [nzHeight]="80"
+            [nzVisible]="visible"
+            nzPlacement="top"
+            (nzOnClose)="closeDrawer()"
+          >
+            <form nz-form [nzLayout]="'inline'" (ngSubmit)="addNewFeed()">
+                <nz-form-item>
+                    <input type="text" nz-input [(ngModel)]="newFeed" placeholder="Input RSS/Atom-feed link" [nzSize]="small" [ngModelOptions]="{standalone: true}"/>
+                </nz-form-item>
+                <nz-form-item>
+                    <button nz-button [class.input-btn]="true">Add</button>
+                </nz-form-item>
+            </form>
+          </nz-drawer>
           Feeds
           <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
         </button>

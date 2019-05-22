@@ -20,7 +20,8 @@ export class HttpService {
     const request = `${rss2jsonUrl}?rss_url=${url}&api_key=${api_key}&count=${count}`;
     return this._http.get(request).pipe(map((res: any) => {
       if (res.status !== 'ok') {
-        return Observable.throw(`Feed convertation error. Please chech is url ${url} valid RSS/Atom feed link. Or visit site https://rss2json.com and chech is service active now. Status: ${status}`);
+        // return Observable.throw(`Feed convertation error. Please chech is url ${url} valid RSS/Atom feed link. Or visit site https://rss2json.com and chech is service active now. Status: ${status}`);
+        return Observable.throw(`${res.status}: ${res.message}`);
       }
       return res;
     }),

@@ -1,14 +1,8 @@
-<nz-list
-  [nzDataSource]="feeds"
-  nzSize="small"
-  [nzRenderItem]="feed"
->
-  <ng-template #feed let-feed >
-    <nz-list-item 
-      [nzContent]="feed.name"
-      [class.active]="feed.url === activeFeedUrl"
-      (click)="activateFeed(feed.url)" 
-    >
-    </nz-list-item>
-  </ng-template>
+<nz-list nzSize="small">
+  <nz-list-item  *ngFor="let feed of feeds"
+    [nzContent]="feed.name"
+    [class.active]="feed.url === activeFeedUrl"
+    (click)="activateFeed(feed.url)" 
+  >
+  </nz-list-item>
 </nz-list>
