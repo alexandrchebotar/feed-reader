@@ -30,7 +30,12 @@ export class Item {
   }
 };
 export class Feed {
-  constructor(public url: string, public name?: string, public items?: Item[], public activeItemGuid?: string) {};
+  constructor(
+    public url: string,
+    public name: string,
+    public items: Item[] = [],
+    public activeItemGuid?: string
+  ) {};
 };
 
 @Injectable({
@@ -136,13 +141,13 @@ export class DataService {
       const feeds = this._getFeeds();
       if (!feeds.find(feed => feed.url === newFeedURL)) {
         feeds.push(new Feed(newFeedURL));
-        // this._feeds.next(feeds);
         this.activateFeed(newFeedURL);
         this.updateActiveFeed();
         this._saveToStorage();
       }
     } catch (error) {
-        this._message.create('error', 'invalid URL');
+      console.log(error);
+        this._message.create('error', error.message + 'invalid URL');
     }
   };
   deleteFeed(url: string): void {
