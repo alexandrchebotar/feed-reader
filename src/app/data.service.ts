@@ -30,12 +30,10 @@ export class Item {
   }
 };
 export class Feed {
-  constructor(
-    public url: string,
-    public name: string,
-    public items: Item[] = [],
-    public activeItemGuid?: string
-  ) {};
+  name: string;
+  items: Item[] = [];
+  activeItemGuid?: string;
+  constructor(public url: string) {};
 };
 
 @Injectable({
@@ -144,10 +142,12 @@ export class DataService {
         this.activateFeed(newFeedURL);
         this.updateActiveFeed();
         this._saveToStorage();
+      } else {
+        this._message.create('error', 'Same URL feed already exists');
       }
     } catch (error) {
       console.log(error);
-        this._message.create('error', error.message + 'invalid URL');
+        this._message.create('error', 'Invalid URL');
     }
   };
   deleteFeed(url: string): void {
