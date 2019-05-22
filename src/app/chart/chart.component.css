@@ -1,0 +1,4 @@
+:host>* {
+  padding: 4px;
+  border-bottom: 1px solid hsl(0, 0%, 91%);
+}

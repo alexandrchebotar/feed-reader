@@ -1,0 +1,15 @@
+:host {
+  text-align: right;
+  font-style: italic;
+  font-size: .85em;
+  line-height: 20px;
+  width: 100%
+}
+[nz-col] {
+  background: hsl(0, 0%, 96%);
+}
+[nz-col] div {
+  background: hsl(0, 0%, 94%);
+  padding-right: 10px;
+  min-height: 20px;
+}

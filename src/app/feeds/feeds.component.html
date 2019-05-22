@@ -1,0 +1,28 @@
+<nz-list nzSize="small">
+  <nz-list-item  *ngFor="let feed of feeds"
+    [nzContent]="feed.name"
+    [class.active]="feed.url === activeFeedUrl"
+    (click)="activateFeed(feed.url)" 
+  >
+  <div *ngIf="managingFeeds">
+    <i nz-icon nzType="edit" nzTheme="outline" (click)="openDrawer(feed.url, feed.name);$event.stopImmediatePropagation()"></i>
+      <nz-drawer
+        [nzClosable]="false"
+        [nzHeight]="80"
+        [nzVisible]="visibleDrawer"
+        nzPlacement="top"
+        (nzOnClose)="closeDrawer()"
+      >
+        <form nz-form [nzLayout]="'inline'" (ngSubmit)="renameFeed();closeDrawer()">
+            <nz-form-item>
+                <input type="text" nz-input [(ngModel)]="newFeedName" [nzSize]="small" [ngModelOptions]="{standalone: true}"/>
+            </nz-form-item>
+            <nz-form-item>
+                <button nz-button [class.input-btn]="true">Rename</button>
+            </nz-form-item>
+        </form>
+      </nz-drawer>
+    <i nz-icon nzType="delete" nzTheme="outline" (click)="deleteFeed(feed.url);$event.stopImmediatePropagation()"></i>
+    </div>
+  </nz-list-item>
+</nz-list>

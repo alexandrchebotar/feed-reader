@@ -1,1 +1,60 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  background: hsl(0, 0%, 98%);
+  overflow-x: hidden;
+}
+.ant-list-item, .description-container {
+  padding: 0 5px;
+}
+.ant-list-item.unread {
+  background-color: hsl(0, 0%, 95%);
+}
+.ant-list-item.active {
+  background: hsl(0, 0%, 90%);
+}
+.ant-list-item:hover, .ant-list-item.unread:hover {
+  cursor: pointer;
+  background: hsl(0, 0%, 85%);
+}
+.ant-card {
+  background: inherit;
+}
+.ant-card-head-title {
+  white-space: normal;
+}
+.ant-card-extra {
+  margin-left: 10px;
+  padding: 16px 0;
+  text-align: right;
+  max-width: 40%;
+}
+.ant-card-head-wrapper {
+  align-items: flex-start;
+}
+.ant-card img {
+  max-width: 100%;
+  padding-right: 8px;
+}
+.ant-btn-background-ghost {
+  color: inherit;
+  border-color: hsl(0, 0%, 85%);
+}
+.flip svg {
+  transform: scaleX(-1);
+}
+.ant-drawer-content {
+  background: hsl(0, 0%, 90%);
+}
+.ant-drawer-body {
+  padding: 24px;
+}
+.ant-input {
+  background: hsl(0, 0%, 96%);
+}
+.ant-input-group-addon {
+  padding: 0;
+}
+.ant-drawer {
+  top: 0;
+  left: 0;
+}

@@ -1,0 +1,13 @@
+<div [class]="'chart'" *ngIf="chartVisible && statisticsVisible && item">
+  <app-chart></app-chart>
+</div>
+<nz-card *ngIf="item" [nzBordered]="false" [nzTitle]="titleLink" [nzExtra]="extra">
+  <ng-template #titleLink>
+    <a [href]="item.link" target="blank">{{item.title}}</a>
+  </ng-template>
+  <ng-template #extra>
+    <div>{{item.pubDate}}</div>
+    <div>{{item.author ? 'by ' + item.author : ''}}</div>
+  </ng-template>
+  <div #description class="description-container" [innerHTML]="item.description | sanitizeHtml"></div>
+</nz-card>

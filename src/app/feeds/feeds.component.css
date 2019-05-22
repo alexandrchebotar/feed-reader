@@ -1,0 +1,10 @@
+i {
+  padding-right: 5px;
+}
+i:hover {
+  color: #40a9ff;
+}
+nz-drawer {
+  position: relative;
+  left: -5px;
+}

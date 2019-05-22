@@ -1,0 +1,17 @@
+<div nz-row nzGutter="4" class="statistics" >
+  <div nz-col [nzSpan]="feedsSpan">
+    <div>
+        <span *ngIf="statisticsVisible && feedsVisible">total feeds: {{totalFeeds}}</span>
+    </div>
+  </div>
+  <div nz-col [nzSpan]="newsSpan">
+    <div>
+      <span *ngIf="statisticsVisible && newsVisible">total news: {{totalNews}}, total authors: {{totalAuthors}}</span>
+    </div>
+  </div>
+  <div nz-col [nzSpan]="descriptinSpan">
+    <div>
+        <span *ngIf="statisticsVisible">used letters: {{usedLetters}}, total letters: {{totalLetters}}</span>
+    </div>
+  </div>
+</div>
