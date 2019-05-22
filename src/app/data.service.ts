@@ -29,16 +29,16 @@ export class Item {
   }
 };
 export class Feed {
-  constructor(public url: string, public name: string, public items?: Item[], public activeItemGuid?: string) {};
+  constructor(public url: string, public name?: string, public items?: Item[], public activeItemGuid?: string) {};
 };
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  private _errors = new BehaviorSubject<string[]>([]);
-  errors = this._errors.asObservable();
-  private _feeds = new BehaviorSubject<Feed[]>( this._loadFromStorage().feeds ||
+  private _fetchingData = new BehaviorSubject<boolean>(false);
+  fetchingData = this._fetchingData.asObservable();
+  private _feeds = new BehaviorSubject<Feed[]>( this._loadFeedsFromStorage() ||
     [
       {url: 'https://nnmclub.to/forum/rssp.xml', name: 'NNM-Club', items: nnmClubFeed.items.map(item => new Item(item)) },
       {url: 'https://www.pravda.com.ua/rss/', name: 'Українська правда', items: pravdaFeed.items.map(item => new Item(item)), activeItemGuid: 'https://www.pravda.com.ua/news/2019/05/19/7215467/' },
@@ -47,13 +47,13 @@ export class DataService {
     ]
   );
   feeds = this._feeds.asObservable();
-  private _activeFeedUrl = new BehaviorSubject<string>(this._loadFromStorage().activeFeedUrl || this._feeds.getValue()[0].url);
+  private _activeFeedUrl = new BehaviorSubject<string>(this._loadActiveFeedUrlFromStorage() || this._getActiveFeedUrl());
   activeFeedUrl = this._activeFeedUrl.asObservable();
   private _activeFeed = new BehaviorSubject<Feed>(this._getActiveFeed());
   activeFeed = this._activeFeed.asObservable();
   private _items = new BehaviorSubject<Item[]>(this._getItems());
   items = this._items.asObservable();
-  private _activeItemGuid = new BehaviorSubject<string>(this._getActiveItemGuid() || this._getItems()[0].guid);
+  private _activeItemGuid = new BehaviorSubject<string>(this._getActiveItemGuid());
   activeItemGuid = this._activeItemGuid.asObservable();
   private _activeItem = new BehaviorSubject<Item>(this._getactiveItem());
   activeItem = this._activeItem.asObservable();
@@ -66,7 +66,7 @@ export class DataService {
     this._activeFeedUrl.next(url);
     this._activeFeed.next(this._getActiveFeed());
     this._items.next(this._getItems());
-    this._activeItemGuid.next(this._getActiveItemGuid() || this._getItems()[0].guid);
+    this._activeItemGuid.next(this._getActiveItemGuid());
     this._activeItem.next(this._getactiveItem());
     this._textDescription.next(this._getTextDescription());
     this._saveToStorage();
@@ -90,46 +90,107 @@ export class DataService {
     this._saveToStorage();
   };
   updateActiveFeed(): void {
+    this._fetchingData.next(true);
     this._http.fetchFeed(this._activeFeedUrl.getValue()).subscribe(
       res => {
-        const feeds = this._feeds.getValue();
-        const feed = feeds.find(feed => feed.url === res.url);
+        const {feed: resFeed , items: resItems} = res;
+        const {url: resUrl, title: resName} = resFeed;
+        const feeds = this._getFeeds();
+        const feed = feeds.find(feed => feed.url === resUrl);
         let {url, name, items} = feed;
-        const newItems = res.items.filter(newItem => !items.some(item => item.guid === newItem.guid));
-        feed.items = [...newItems, ...items];
-        // .sort((a, b) => Date.parse(b.pubDate) - Date.parse(a.pubDate));
-        feed.name = name || res.name;
+        let newItems: Item[] = resItems.map((item: any) => new Item(item));
+        if (items) {
+          newItems = newItems.filter(newItem => !items.some(item => item.guid === newItem.guid));
+          feed.items = [...newItems, ...items];
+        } else {
+          feed.items = newItems;
+        }
+        feed.name = name || resName;
+        this._feeds.next(feeds);
         this.activateFeed(url);
+        this._saveToStorage();
+        this._fetchingData.next(false);
       },
-      err => this._errors.next([err])
+      err => {
+        console.error('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        console.error(err);
+        console.error('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      }
     );
-  } 
+  };
+  // updateAllFeeds(): void {
+  //   this._getFeeds().
+  // }
+  addNewFeed(newFeedURL: string): void {
+    const feeds = this._getFeeds();
+    if (!feeds.find(feed => feed.url === newFeedURL)) {
+      feeds.push(new Feed(newFeedURL));
+      this.activateFeed(newFeedURL);
+      this.updateActiveFeed();
+      this._saveToStorage();
+    }
+  };
 
+  _getFeeds() {
+    const feeds = this._feeds.getValue() || [];
+    return feeds;
+  };
+  _getActiveFeedUrl() {
+    let activeFeedUrl = this._activeFeedUrl && this._activeFeedUrl.getValue();
+    if (!activeFeedUrl) {
+      const feeds = this._getFeeds();
+      activeFeedUrl = feeds && feeds[0] && feeds[0].url;
+    }
+    return activeFeedUrl;
+  }
   _getActiveFeed() {
-    return this._feeds.getValue().find(feed => feed.url === this._activeFeedUrl.getValue());
+    const feeds = this._getFeeds();
+    const activeFeedUrl = this._activeFeedUrl.getValue();
+    const activeFeed = activeFeedUrl && feeds.find(feed => feed.url === activeFeedUrl) || feeds[0];
+    return activeFeed;
   };
   _getItems() {
-    return this._activeFeed.getValue().items;
-  };
-  _getItem(guid) {
-    return this._getItems().find(item => item.guid === guid);;
+    const activeFeed = this._getActiveFeed();
+    const items = activeFeed && activeFeed.items;
+    return items;
   };
   _getActiveItemGuid() {
-    return this._activeFeed.getValue().activeItemGuid;
+    const activeFeed = this._getActiveFeed();
+    const activeItemGuid = activeFeed && activeFeed.items && (activeFeed.activeItemGuid || (activeFeed.items[0] && activeFeed.items[0].guid));
+    return activeItemGuid;
+  };
+  _getItem(guid) {
+    const items = this._getItems();
+    const item = items && items.find(item => item.guid === guid);
+    return item;
   };
   _getactiveItem() {
-    return this._items.getValue().find(item => item.guid === this._activeItemGuid.getValue())
+    const items = this._getItems();
+    const activeItem = items && items.find(item => item.guid === this._activeItemGuid.getValue());
+    return activeItem;
   };
   _getTextDescription(): string {
-    const description = this._activeItem.getValue().description;
+    const activeItem = this._getactiveItem();
+    const description = activeItem && activeItem.description;
     const el = document.createElement('div');
     el.innerHTML = description;
-    return el.innerText;
+    const textDescription = description && el.innerText;
+    return textDescription;
   };
   _saveToStorage() {
-    this._storage.set('data', {feeds: this._feeds.getValue(), activeFeedUrl: this._activeFeedUrl.getValue()});
+    this._storage.set('data', {feeds: this._getFeeds(), activeFeedUrl: this._activeFeedUrl.getValue()});
   };
-  _loadFromStorage(): {feeds: Feed[], activeFeedUrl: string} {
+  _loadFromStorage(): any {
     return this._storage.get('data');
+  }
+  _loadFeedsFromStorage(): Feed[] {
+    const loaded = this._loadFromStorage();
+    const feeds = loaded && loaded.feeds;
+    return feeds;
+  }
+  _loadActiveFeedUrlFromStorage(): string {
+    const loaded = this._loadFromStorage();
+    const activeFeedUrl = loaded && loaded.activeFeedUrl;
+    return activeFeedUrl;
   }
 }

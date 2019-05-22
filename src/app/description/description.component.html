@@ -1,7 +1,7 @@
 <div *ngIf="true" [class]="chart">
   <app-chart></app-chart>
 </div>
-<nz-card [nzBordered]="false" [nzTitle]="titleLink" [nzExtra]="extra">
+<nz-card *ngIf="item" [nzBordered]="false" [nzTitle]="titleLink" [nzExtra]="extra">
   <ng-template #titleLink>
     <a [href]="item.link" target="blank">{{item.title}}</a>
   </ng-template>

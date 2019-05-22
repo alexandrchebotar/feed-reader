@@ -5,7 +5,23 @@
         <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Hide feeds" nzPlacement="bottomLeft">
           <i nz-icon nzType="menu-fold" nzTheme="outline"></i>
         </button>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Add feed" nzPlacement="bottomCenter">
+        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Add feed" nzPlacement="bottomCenter" (click)="openDrawer()">
+        <nz-drawer
+          [nzClosable]="false"
+          [nzHeight]="80"
+          [nzVisible]="visible"
+          nzPlacement="top"
+          (nzOnClose)="closeDrawer()"
+        >
+          <nz-input-group [nzAddOnAfter]="suffixIconButton" nzCompact="true">
+            <input type="text" nz-input [(ngModel)]="newFeed" placeholder="Input RSS/Atom-feed link" [nzSize]="small" />
+          </nz-input-group>
+          <ng-template #suffixIconButton>
+            <button nz-button [class.input-btn]="true" (click)="addNewFeed()">Add</button>
+          </ng-template>
+        </nz-drawer>
+
+
           Feeds
           <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
         </button>
@@ -31,10 +47,11 @@
           nz-tooltip
           nzTitle="Update this feed news"
           nzPlacement="bottomCenter"
+          [disabled]="isFetching"
           (click)="updateActiveFeed()"
         >
           News
-          <i nz-icon nzType="sync" nzTheme="outline"></i>
+          <i nz-icon nzType="sync" nzTheme="outline" [nzSpin]="isFetching"></i>
         </button>
         <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Mark all as read" nzPlacement="bottomRight">
           <i nz-icon nzType="check-square" nzTheme="outline"></i>
@@ -73,8 +90,15 @@
         <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Settings" nzPlacement="bottomRight">
           <i nz-icon nzType="setting" nzTheme="outline"></i>
         </button>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Update all feeds" nzPlacement="bottomRight">
-          <i nz-icon nzType="sync" nzTheme="outline"></i>
+        <button nz-button
+          [nzGhost]="true"
+          nz-tooltip
+          nzTitle="Update all feeds"
+          nzPlacement="bottomRight"
+          [disabled]="isFetching"
+          (click)="updateAllFeeds()"
+        >
+          <i nz-icon nzType="sync" nzTheme="outline" [nzSpin]="isFetching"></i>
         </button>
       </nz-button-group>
     </div>

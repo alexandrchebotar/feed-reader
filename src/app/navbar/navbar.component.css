@@ -18,3 +18,7 @@
   float: right;
   padding-right: 5px;
 }
+.input-btn {
+  background: hsl(0, 0%, 80%);
+  height: 30px;
+}

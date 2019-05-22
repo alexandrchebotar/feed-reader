@@ -39,3 +39,15 @@ body {
 .flip svg {
   transform: scaleX(-1);
 }
+.ant-drawer-content {
+  background: hsl(0, 0%, 90%);
+}
+.ant-drawer-body {
+  padding: 24px;
+}
+.ant-input {
+  background: hsl(0, 0%, 96%);
+}
+.ant-input-group-addon {
+  padding: 0;
+}

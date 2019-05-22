@@ -32,16 +32,20 @@ export class StatisticsService {
     this._totalFeeds.next(feeds.length);
   }
   generateItemsStatistics(items: Item[]): void {
-    this._totalNews.next(items.length);
-    this._totalAuthors.next([...new Set(items.map(item => item.author))].length);
+    if (items) {
+      this._totalNews.next(items.length);
+      this._totalAuthors.next([...new Set(items.map(item => item.author))].length);
+    }
   }
   generateDescriptionStatistics(textDescription: string): void {
-    const regExp = /[a-zа-я]/;
+    if (textDescription) {
+      const regExp = /[a-zа-я]/;
     const allLetters: string[] = [...textDescription.toLowerCase()].filter(sym => regExp.test(sym))
     const unicLetters: string[] = [...new Set(allLetters)];
     this._totalLetters.next(allLetters.length);
     this._usedLetters.next(unicLetters.length);
     this._letters.next(unicLetters.map(letter => new LetterStats(letter, allLetters.filter(symbol => symbol===letter).length)));
+    }
   }
 
 }
