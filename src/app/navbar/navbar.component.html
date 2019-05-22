@@ -68,39 +68,42 @@
     </div> 
   </div>
   <div nz-col [nzSpan]="descriptinSpan"  >
-    <div *ngIf="statisticsVisible" [class.statistics-buggon-group]="true">
-      <nz-button-group>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Show/hide chart" (click)="toggleChart()" nzPlacement="bottomLeft">
-          <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
-        </button>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Hide statistics" (click)="toggleStatistics()" nzPlacement="bottomRight">
-          Statistics
-          <i nz-icon nzType="menu-fold" nzTheme="outline" [class.flip]="true"></i>
-        </button>
-      </nz-button-group>
-    </div>
-    <div [class.app-buggon-group]="true">
-      <nz-button-group>
-        <button *ngIf="!statisticsVisible" nz-button [nzGhost]="true" nz-tooltip nzTitle="Show statistics" (click)="toggleStatistics()" nzPlacement="bottomLeft">
-          <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
-        </button>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Layout" nzPlacement="bottomLeft" disabled>
-          <i nz-icon nzType="layout" nzTheme="outline"></i>
-        </button>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Settings" nzPlacement="bottomRight" disabled>
-          <i nz-icon nzType="setting" nzTheme="outline"></i>
-        </button>
-        <button nz-button
-          [nzGhost]="true"
-          nz-tooltip
-          nzTitle="Update all feeds"
-          nzPlacement="bottomRight"
-          disabled
-          (click)="updateAllFeeds()"
-        >
-          <i nz-icon nzType="sync" nzTheme="outline" [nzSpin]="isFetching"></i>
-        </button>
-      </nz-button-group>
+    <div>
+      <div *ngIf="statisticsVisible" [class.statistics-buggon-group]="true">
+        <nz-button-group>
+          <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Show/hide chart" (click)="toggleChart()" nzPlacement="bottomLeft">
+            <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
+          </button>
+          <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Hide statistics" (click)="toggleStatistics()" nzPlacement="bottomRight">
+            Statistics
+            <i nz-icon nzType="menu-fold" nzTheme="outline" [class.flip]="true"></i>
+          </button>
+        </nz-button-group>
+      </div>
+      <div [class.app-buggon-group]="true">
+        <nz-button-group>
+          <button *ngIf="!statisticsVisible" nz-button [nzGhost]="true" nz-tooltip nzTitle="Show statistics" (click)="toggleStatistics()" nzPlacement="bottomLeft">
+            <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
+          </button>
+          <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Layout" nzPlacement="bottomLeft" disabled>
+            <i nz-icon nzType="layout" nzTheme="outline"></i>
+          </button>
+          <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Settings" nzPlacement="bottomRight" disabled>
+            <i nz-icon nzType="setting" nzTheme="outline"></i>
+          </button>
+          <button nz-button
+            [nzGhost]="true"
+            nz-tooltip
+            nzTitle="Update all feeds"
+            nzPlacement="bottomRight"
+            disabled
+            (click)="updateAllFeeds()"
+          >
+            <i nz-icon nzType="sync" nzTheme="outline" [nzSpin]="isFetching"></i>
+          </button>
+        </nz-button-group>
+      </div>
+      <!-- <div style="display: inline;"></div> -->
     </div>
   </div>
 </div>

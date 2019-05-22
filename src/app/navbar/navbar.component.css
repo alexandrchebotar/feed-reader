@@ -7,8 +7,9 @@
 [nz-col] {
   background: hsl(0, 0%, 92%);
 }
-[nz-col] div {
+[nz-col]>div {
   background: hsl(0, 0%, 90%);
+  overflow: auto;
 }
 .statistics-buggon-group {
   float: left;

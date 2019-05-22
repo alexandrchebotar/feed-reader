@@ -2,8 +2,8 @@
   text-align: right;
   font-style: italic;
   font-size: .85em;
-  height: 20px;
   line-height: 20px;
+  width: 100%
 }
 [nz-col] {
   background: hsl(0, 0%, 96%);
