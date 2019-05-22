@@ -62,6 +62,14 @@ export class DataService {
   textDescription = this._textDescription.asObservable();
   private _showUnread =new BehaviorSubject<boolean>(false);
   showUnread = this._showUnread.asObservable();
+  private _feedsVisible =new BehaviorSubject<boolean>(true);
+  feedsVisible = this._feedsVisible.asObservable();
+  private _newsVisible =new BehaviorSubject<boolean>(true);
+  newsVisible = this._newsVisible.asObservable();
+  private _statisticsVisible =new BehaviorSubject<boolean>(true);
+  statisticsVisible = this._statisticsVisible.asObservable();
+  private _chartVisible =new BehaviorSubject<boolean>(true);
+  chartVisible = this._chartVisible.asObservable();
 
   constructor(private _storage: StorageService, private _http: HttpService,private _message: NzMessageService) {};
 
@@ -96,6 +104,22 @@ export class DataService {
   };
   toggleUnread(): void {
     this._showUnread.next(!this._showUnread.getValue());
+    this._saveToStorage();
+  }
+  toggleFeeds(): void {
+    this._feedsVisible.next(!this._feedsVisible.getValue());
+    this._saveToStorage();
+  }
+  toggleNews(): void {
+    this._newsVisible.next(!this._newsVisible.getValue());
+    this._saveToStorage();
+  }
+  toggleStatistics(): void {
+    this._statisticsVisible.next(!this._statisticsVisible.getValue());
+    this._saveToStorage();
+  }
+  toggleChart(): void {
+    this._chartVisible.next(!this._chartVisible.getValue());
     this._saveToStorage();
   }
   updateActiveFeed(): void {

@@ -1,17 +1,17 @@
 <app-navbar></app-navbar>
 <app-statistics></app-statistics>
 <div nz-row nzGutter="4" class="main">
-  <div nz-col nzXs="0" nzSm="0" nzMd="4" nzLg="4" nzXl="4" >
+  <div nz-col [nzSpan]="feedsSpan" >
     <div>
       <app-feeds></app-feeds>
     </div>
   </div>
-  <div nz-col nzXs="0" nzSm="12" nzMd="10" nzLg="10" nzXl="10" >
+  <div nz-col [nzSpan]="newsSpan" >
     <div>
       <app-items></app-items>
     </div>
   </div>
-  <div nz-col nzXs="24" nzSm="12" nzMd="10" nzLg="10" nzXl="10" >
+  <div nz-col [nzSpan]="descriptinSpan" >
     <div>
       <app-description></app-description>
     </div>

@@ -1,4 +1,4 @@
-<div *ngIf="true" [class]="chart">
+<div [class]="'chart'" *ngIf="chartVisible && statisticsVisible">
   <app-chart></app-chart>
 </div>
 <nz-card *ngIf="item" [nzBordered]="false" [nzTitle]="titleLink" [nzExtra]="extra">

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StatisticsService } from '../statistics.service';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-statistics',
@@ -12,7 +13,13 @@ export class StatisticsComponent implements OnInit {
   totalAuthors: number;
   totalLetters: number;
   usedLetters: number;
-  constructor(private _statistics: StatisticsService) { };
+  feedsVisible: boolean;
+  newsVisible: boolean;
+  statisticsVisible: boolean;
+  feedsSpan: number = 4;
+  newsSpan: number = 10;
+  descriptinSpan: number = 10;
+  constructor(private _data: DataService, private _statistics: StatisticsService) { };
 
   ngOnInit() {
     this._statistics.totalFeeds.subscribe(res => this.totalFeeds = res);
@@ -20,5 +27,19 @@ export class StatisticsComponent implements OnInit {
     this._statistics.totalAuthors.subscribe(res => this.totalAuthors = res);
     this._statistics.totalLetters.subscribe(res => this.totalLetters = res);
     this._statistics.usedLetters.subscribe(res => this.usedLetters = res);
+    this._data.statisticsVisible.subscribe(res => this.statisticsVisible = res);
+    this._data.feedsVisible.subscribe(res => {
+      this.feedsVisible = res;
+      this._setNewSpans();
+    });
+    this._data.newsVisible.subscribe(res => {
+      this.newsVisible = res;
+      this._setNewSpans();
+    })
+  }
+  _setNewSpans(): void {
+    this.feedsSpan = this.feedsVisible ? 4 : 1;
+    this.newsSpan = this.newsVisible ? (this.feedsVisible ? 10 : 11) : 1;
+    this.descriptinSpan = this.newsVisible ? (this.feedsVisible ? 10 : 12) : (this.feedsVisible ? 19 : 22);
   }
 }

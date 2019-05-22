@@ -1,8 +1,5 @@
-/* :host /deep/ img {
-  max-width: calc(100%);
-  padding: 0 2px;
-} */
 .chart {
-  /* height: 200px; */
   width: 100%;
+  max-width: 50vw;
+  margin: 0 auto;
 }

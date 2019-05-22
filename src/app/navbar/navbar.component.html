@@ -1,8 +1,8 @@
 <div nz-row nzGutter="4" class="navbar">
-  <div nz-col nzXs="2" nzSm="4" [nzMd]="{ span: '6'}" [nzLg]="{ span: '10'}" nzXl="4" >
-    <div *ngIf="true"> 
+  <div nz-col [nzSpan]="feedsSpan" >
+    <div *ngIf="feedsVisible"> 
       <nz-button-group>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Hide feeds" nzPlacement="bottomLeft">
+        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Hide feeds" (click)="toggleFeeds()" nzPlacement="bottomLeft">
           <i nz-icon nzType="menu-fold" nzTheme="outline"></i>
         </button>
         <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Add feed" nzPlacement="bottomCenter" (click)="openDrawer()">
@@ -25,21 +25,21 @@
           Feeds
           <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
         </button>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Manage feeds" nzPlacement="bottomRight">
+        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Manage feeds" nzPlacement="bottomRight" disabled>
           <i nz-icon nzType="setting" nzTheme="outline"></i>
         </button>
       </nz-button-group>
     </div>
-    <div *ngIf="false">
-      <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Show feeds" nzPlacement="bottomLeft">
+    <div *ngIf="!feedsVisible">
+      <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Show feeds" (click)="toggleFeeds()" nzPlacement="bottomLeft">
         <i nz-icon nzType="notification" nzTheme="outline"></i>
       </button>
     </div>
   </div>
-  <div nz-col nzXs="2" nzSm="4" [nzMd]="{ span: '6'}" [nzLg]="{ span: '10'}" nzXl="10" >
-    <div *ngIf="true">
+  <div nz-col [nzSpan]="newsSpan" >
+    <div *ngIf="newsVisible">
       <nz-button-group>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Hide news" nzPlacement="bottomLeft">
+        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Hide news" (click)="toggleNews()" nzPlacement="bottomLeft">
           <i nz-icon nzType="menu-fold" nzTheme="outline"></i>
         </button>
         <button nz-button
@@ -61,33 +61,33 @@
         </button>
       </nz-button-group>
     </div> 
-    <div *ngIf="false">
-      <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Show news" nzPlacement="bottomLeft">
+    <div *ngIf="!newsVisible">
+      <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Show news" (click)="toggleNews()" nzPlacement="bottomLeft">
         <i nz-icon nzType="global" nzTheme="outline"></i>
       </button>
     </div> 
   </div>
-  <div nz-col nzXs="2" nzSm="4" [nzMd]="{span: '6'}" [nzLg]="{ span: '10'}" nzXl="10"  >
-    <div *ngIf="true" [class.statistics-buggon-group]="true">
+  <div nz-col [nzSpan]="descriptinSpan"  >
+    <div *ngIf="statisticsVisible" [class.statistics-buggon-group]="true">
       <nz-button-group>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Toggle statistics details" nzPlacement="bottomLeft">
+        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Show/hide chart" (click)="toggleChart()" nzPlacement="bottomLeft">
           <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
-          Statistics
         </button>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Hide statistics" nzPlacement="bottomRight">
+        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Hide statistics" (click)="toggleStatistics()" nzPlacement="bottomRight">
+          Statistics
           <i nz-icon nzType="menu-fold" nzTheme="outline" [class.flip]="true"></i>
         </button>
       </nz-button-group>
     </div>
     <div [class.app-buggon-group]="true">
       <nz-button-group>
-        <button *ngIf="false" nz-button [nzGhost]="true" nz-tooltip nzTitle="Show statistics" nzPlacement="bottomLeft">
+        <button *ngIf="!statisticsVisible" nz-button [nzGhost]="true" nz-tooltip nzTitle="Show statistics" (click)="toggleStatistics()" nzPlacement="bottomLeft">
           <i nz-icon nzType="pie-chart" nzTheme="outline"></i>
         </button>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Layout" nzPlacement="bottomLeft">
+        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Layout" nzPlacement="bottomLeft" disabled>
           <i nz-icon nzType="layout" nzTheme="outline"></i>
         </button>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Settings" nzPlacement="bottomRight">
+        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Settings" nzPlacement="bottomRight" disabled>
           <i nz-icon nzType="setting" nzTheme="outline"></i>
         </button>
         <button nz-button
@@ -95,7 +95,7 @@
           nz-tooltip
           nzTitle="Update all feeds"
           nzPlacement="bottomRight"
-          [disabled]="isFetching"
+          disabled
           (click)="updateAllFeeds()"
         >
           <i nz-icon nzType="sync" nzTheme="outline" [nzSpin]="isFetching"></i>

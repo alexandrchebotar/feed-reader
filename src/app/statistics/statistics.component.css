@@ -11,4 +11,5 @@
 [nz-col] div {
   background: hsl(0, 0%, 94%);
   padding-right: 10px;
+  min-height: 20px;
 }
