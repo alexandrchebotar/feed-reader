@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import pravdaFeed from './data/pravda.json';
-import pingvinusFeed from './data/pingvinus.json';
-import redditFeed from './data/reddit.json';
-import nnmClubFeed from './data/nnm-club.json';
 import { StorageService } from './storage.service';
 import { HttpService } from './http.service';
 import { NzMessageService } from 'ng-zorro-antd';
@@ -44,10 +40,8 @@ export class DataService {
   fetchingData = this._fetchingData.asObservable();
   private _feeds = new BehaviorSubject<Feed[]>( this._loadFeedsFromStorage() ||
     [
-      {url: 'https://nnmclub.to/forum/rssp.xml', name: 'NNM-Club', items: nnmClubFeed.items.map(item => new Item(item)) },
-      {url: 'https://www.pravda.com.ua/rss/', name: 'Українська правда', items: pravdaFeed.items.map(item => new Item(item)), activeItemGuid: 'https://www.pravda.com.ua/news/2019/05/19/7215467/' },
-      {url: 'https://pingvinus.ru/rss.xml', name: 'Пингвинус Linux', items: pingvinusFeed.items.map(item => new Item(item))},
-      {url: 'https://www.reddit.com/.rss', name: 'reddit: the front page of the internet', items: redditFeed.items.map(item => new Item(item))},
+      {url: 'https://nnmclub.to/forum/rssp.xml', name: 'NNM-Club', items: []},
+      {url: 'https://pingvinus.ru/rss.xml', name: 'Пингвинус Linux', items: []},
     ]
   );
   feeds = this._feeds.asObservable();
