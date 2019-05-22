@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from './data.service';
 
 @Component({
@@ -6,12 +6,13 @@ import { DataService } from './data.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   feedsVisible: boolean;
   newsVisible: boolean;
   feedsSpan: number = 4;
   newsSpan: number = 10;
   descriptinSpan: number = 10;
+  timerId: NodeJS.Timer;
   constructor(private _data: DataService) {}
 
   ngOnInit() {
@@ -26,7 +27,13 @@ export class AppComponent implements OnInit {
       this.newsVisible = res;
       this._setNewSpans();
     })
+    this._data.updateAllFeeds();
+    this.timerId = setInterval(this._data.updateAllFeeds, 300000);
   }
+  ngOnDestroy() {
+    clearInterval(this.timerId);
+  }
+
   _setNewSpans(): void {
     this.feedsSpan = this.feedsVisible ? 4 : 0;
     this.newsSpan = this.newsVisible ? (this.feedsVisible ? 10 : 12) : 0;
