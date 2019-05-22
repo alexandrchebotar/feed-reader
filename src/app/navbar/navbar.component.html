@@ -57,7 +57,7 @@
           <i nz-icon nzType="check-square" nzTheme="outline"></i>
         </button>
         <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Show only unread" (click)="toggleUnread()" nzPlacement="bottomRight">
-          <i nz-icon nzType="eye-invisible" [nzTheme]="showUnread ? 'twotone' : 'outline'" [nzTwotoneColor]="'#52c41a'"></i>
+          <i nz-icon [nzType]="showUnread ? 'eye-invisible' : 'eye'" [nzTheme]="'outline'"></i>
         </button>
       </nz-button-group>
     </div> 
