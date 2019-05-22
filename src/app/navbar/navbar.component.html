@@ -25,7 +25,7 @@
           Feeds
           <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
         </button>
-        <button nz-button [nzGhost]="true" nz-tooltip nzTitle="Manage feeds" nzPlacement="bottomRight" disabled>
+        <button nz-button [nzGhost]="true" (click)="manageFeeds()" nz-tooltip nzTitle="Manage feeds" nzPlacement="bottomRight">
           <i nz-icon nzType="setting" nzTheme="outline"></i>
         </button>
       </nz-button-group>

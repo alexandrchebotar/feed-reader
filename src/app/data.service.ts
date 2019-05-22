@@ -70,6 +70,8 @@ export class DataService {
   statisticsVisible = this._statisticsVisible.asObservable();
   private _chartVisible =new BehaviorSubject<boolean>(true);
   chartVisible = this._chartVisible.asObservable();
+  private _managingFeeds =new BehaviorSubject<boolean>(false);
+  managingFeeds = this._managingFeeds.asObservable();
 
   constructor(private _storage: StorageService, private _http: HttpService,private _message: NzMessageService) {};
 
@@ -149,13 +151,18 @@ export class DataService {
     let feeds = this._getFeeds();
     feeds = feeds.filter(feed => !(feed.url === url));
     this._feeds.next(feeds);
+    this._saveToStorage();
   };
   renameFeed(url: string, name: string): void {
     const feeds = this._getFeeds();
     const feed = feeds.find(feed => feed.url === url);
     feed.name = name;
     this._feeds.next(feeds);
+    this._saveToStorage();
   };
+  manageFeeds() {
+    this._managingFeeds.next(!this._managingFeeds.getValue());
+  }
 
   _getFeeds() {
     const feeds = this._feeds.getValue() || [];

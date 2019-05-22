@@ -12,6 +12,7 @@ export class FeedsComponent implements OnInit {
   editFeedUrl: string;
   newFeedName: string;
   visibleDrawer = false;
+  managingFeeds: boolean;
   constructor(private _data: DataService) {};
 
   activateFeed(url: string): void {};
@@ -30,6 +31,7 @@ export class FeedsComponent implements OnInit {
 
   ngOnInit() {
     this._data.feeds.subscribe(res => this.feeds = res);
+    this._data.managingFeeds.subscribe(res => this.managingFeeds = res);
     this._data.activeFeedUrl.subscribe(res => this.activeFeedUrl = res);
     
     this.activateFeed = url => this._data.activateFeed(url);

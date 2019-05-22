@@ -30,14 +30,14 @@ export class NavbarComponent implements OnInit {
       this.closeDrawer();
       this._data.addNewFeed(this.newFeedUrl);
       this.newFeedUrl = '';
-    }
+    };
     this.toggleFeeds = () => this._data.toggleFeeds();
     this.toggleNews = () => this._data.toggleNews();
     this.toggleStatistics = () => this._data.toggleStatistics();
     this.toggleChart = () => this._data.toggleChart();
     this.toggleUnread = () => this._data.toggleUnread();
     this.readAll = () => this._data.readAll();
-
+    this.manageFeeds = () => this._data.manageFeeds();
     this._data.feedsVisible.subscribe(res => {
       this.feedsVisible = res;
       this._setNewSpans();
@@ -62,6 +62,7 @@ export class NavbarComponent implements OnInit {
   toggleChart(): void {};
   toggleUnread(): void {};
   readAll(): void {};
+  manageFeeds(): void {};
   _setNewSpans(): void {
     this.feedsSpan = this.feedsVisible ? 4 : 1;
     this.newsSpan = this.newsVisible ? (this.feedsVisible ? 10 : 11) : 1;
