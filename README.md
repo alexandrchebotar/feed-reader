@@ -9,7 +9,7 @@ The following libraries are used in the project:
 - ng2-charts;
 - ng-zorro-antd;
 
-Production build on github pages - https://alexandrchebotar.github.io/feed-reader/.
+Live production build on github pages - https://alexandrchebotar.github.io/feed-reader/.
 
 <summary>
   This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.9.
