@@ -12,7 +12,7 @@ export class AppComponent implements OnInit, OnDestroy {
   feedsSpan: number = 4;
   newsSpan: number = 10;
   descriptinSpan: number = 10;
-  timerId: NodeJS.Timer;
+  timerId: number;
   constructor(private _data: DataService) {}
 
   ngOnInit() {
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this._setNewSpans();
     })
     this._data.updateAllFeeds();
-    this.timerId = setInterval(this._data.updateAllFeeds, 300000);
+    this.timerId = window.setInterval(this._data.updateAllFeeds, 300000);
   }
   ngOnDestroy() {
     clearInterval(this.timerId);
