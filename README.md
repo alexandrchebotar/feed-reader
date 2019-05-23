@@ -9,6 +9,8 @@ The following libraries are used in the project:
 - ng2-charts;
 - ng-zorro-antd;
 
+Browsers support: modern browsers and Internet Explorer 11+.
+
 Live production build on github pages - https://alexandrchebotar.github.io/feed-reader/.
 
 <summary>
