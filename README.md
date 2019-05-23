@@ -2,7 +2,7 @@
 
 Web-based RSS/Atom aggregator.
 
-To obtain the data of the RSS feed, use the rss2json service [rss2json.com](https://rss2json.com).
+To obtain the data of the RSS feed, use the [rss2json.com](https://rss2json.com) service.
 
 The following libraries are used in the project:
 - rxjs;
