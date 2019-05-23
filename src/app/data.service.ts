@@ -4,14 +4,6 @@ import { StorageService } from './storage.service';
 import { HttpService } from './http.service';
 import { NzMessageService } from 'ng-zorro-antd';
 
-interface FeedDetails {
-  url: string;
-  title: string;
-  link: string;
-  author: string;
-  description: string;
-  image: string;
-};
 export class Item {
   title: string;
   pubDate: string;
@@ -31,11 +23,20 @@ export class Feed {
   activeItemGuid?: string;
   constructor(public url: string) {};
 };
+class Settings {
+  showUnread = false;
+  feedsVisible = true;
+  newsVisible = true;
+  statisticsVisible = true;
+  chartVisible = true;
+  managingFeeds = false;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  private _settings: Settings = this._loadSettingsFromStorage() || new Settings;
   private _fetchingData = new BehaviorSubject<boolean>(false);
   fetchingData = this._fetchingData.asObservable();
   private _feeds = new BehaviorSubject<Feed[]>( this._loadFeedsFromStorage() ||
@@ -57,17 +58,17 @@ export class DataService {
   activeItem = this._activeItem.asObservable();
   private _textDescription = new BehaviorSubject<string>(this._getTextDescription());
   textDescription = this._textDescription.asObservable();
-  private _showUnread =new BehaviorSubject<boolean>(false);
+  private _showUnread =new BehaviorSubject<boolean>(this._settings.showUnread);
   showUnread = this._showUnread.asObservable();
-  private _feedsVisible =new BehaviorSubject<boolean>(true);
+  private _feedsVisible =new BehaviorSubject<boolean>(this._settings.feedsVisible);
   feedsVisible = this._feedsVisible.asObservable();
-  private _newsVisible =new BehaviorSubject<boolean>(true);
+  private _newsVisible =new BehaviorSubject<boolean>(this._settings.newsVisible);
   newsVisible = this._newsVisible.asObservable();
-  private _statisticsVisible =new BehaviorSubject<boolean>(true);
+  private _statisticsVisible =new BehaviorSubject<boolean>(this._settings.statisticsVisible);
   statisticsVisible = this._statisticsVisible.asObservable();
-  private _chartVisible =new BehaviorSubject<boolean>(true);
+  private _chartVisible =new BehaviorSubject<boolean>(this._settings.chartVisible);
   chartVisible = this._chartVisible.asObservable();
-  private _managingFeeds =new BehaviorSubject<boolean>(false);
+  private _managingFeeds =new BehaviorSubject<boolean>(this._settings.managingFeeds);
   managingFeeds = this._managingFeeds.asObservable();
 
   constructor(private _storage: StorageService, private _http: HttpService,private _message: NzMessageService) {};
@@ -165,6 +166,7 @@ export class DataService {
   };
   manageFeeds(): void {
     this._managingFeeds.next(!this._managingFeeds.getValue());
+    this._saveToStorage();
   }
 
   _getFeeds(): Feed[] {
@@ -214,18 +216,29 @@ export class DataService {
     return textDescription;
   };
   _saveToStorage(): void {
-    this._storage.set('data', {feeds: this._getFeeds(), activeFeedUrl: this._activeFeedUrl.getValue()});
+    this._storage.set('data', {feeds: this._getFeeds(), activeFeedUrl: this._getActiveFeedUrl()});
+    this._storage.set('settings', {
+      showUnread: this._showUnread.getValue(),
+      feedsVisible: this._feedsVisible.getValue(),
+      newsVisible: this._newsVisible.getValue(),
+      statisticsVisible: this._statisticsVisible.getValue(),
+      chartVisible: this._chartVisible.getValue(),
+      managingFeeds: this._managingFeeds.getValue(),
+    });
   };
-  _loadFromStorage(): any {
+  _loadDataFromStorage(): any {
     return this._storage.get('data');
   }
+  _loadSettingsFromStorage(): any {
+    return this._storage.get('settings');
+  }
   _loadFeedsFromStorage(): Feed[] {
-    const loaded = this._loadFromStorage();
+    const loaded = this._loadDataFromStorage();
     const feeds = loaded && loaded.feeds;
     return feeds;
   }
   _loadActiveFeedUrlFromStorage(): string {
-    const loaded = this._loadFromStorage();
+    const loaded = this._loadDataFromStorage();
     const activeFeedUrl = loaded && loaded.activeFeedUrl;
     return activeFeedUrl;
   }
