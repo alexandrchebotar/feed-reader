@@ -5,9 +5,9 @@ Web-based RSS/Atom aggregator.
 To obtain the data of the RSS feed, use the [rss2json](https://rss2json.com) service.
 
 The following libraries are used in the project:
-- rxjs;
-- ng2-charts;
-- ng-zorro-antd;
+- [RxJS](https://github.com/ReactiveX/rxjs);
+- [NG-ZORRO](https://github.com/NG-ZORRO/ng-zorro-antd);
+- [ng2-charts](https://github.com/valor-software/ng2-charts);
 
 Browsers support: modern browsers and Internet Explorer 11+.
 
